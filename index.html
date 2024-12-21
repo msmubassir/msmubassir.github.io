@@ -21,7 +21,7 @@
         header {
             background: #1a1a1a;
             color: #00ffcc;
-            padding: 1.5em 0;
+            padding: 0.5em 0;
             text-align: center;
             position: fixed;
             width: 100%;
@@ -56,12 +56,13 @@
         }
 
         section {
-            padding: 7em 2em 2em 2em;
-            margin-top: 6em;
+            padding: 4em 0em 0em 2em;
+            margin-top: 0em;
             animation: fadeIn 2s ease-in-out;
-            background: linear-gradient(135deg, rgba(0, 255, 204, 0.1), rgba(255, 204, 0, 0.1));
+            /*background: linear-gradient(135deg, rgba(0, 255, 204, 0.1), rgba(255, 204, 0, 0.1));*/
             border-radius: 10px;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            overflow: visible; /* Ensure no text is cut off */
         }
 
         h2 {
@@ -79,6 +80,14 @@
             text-align: center;
             font-size: 1.3em;
             line-height: 1.8em;
+            color: #f1f1f1; /* Light gray for general text */
+            animation: fadeIn 2s ease-in-out;
+        }
+        
+        .footer p {
+            text-align: center;
+            font-size: 1.3em;
+            line-height: 0.8em;
             color: #f1f1f1; /* Light gray for general text */
             animation: fadeIn 2s ease-in-out;
         }
@@ -128,7 +137,7 @@
             background: #1a1a1a;
             color: #00ffcc;
             text-align: center;
-            padding: 1em 0;
+            padding: 0.1em 0;
             position: fixed;
             width: 100%;
             bottom: 0;
@@ -183,9 +192,12 @@
         }
 
         /* Add padding after contact section */
+        /*
         #contact {
-            padding-bottom: 4em; /* Adjust the padding as needed */
+            padding-bottom: 4em;
+            padding-top: 0em;
         }
+        */
 
         /* Divider box after the contact section */
         .divider-box {
@@ -195,6 +207,12 @@
             margin: 2em 0;
         }
         
+        .divider-top {
+            background-color: inherit;
+            width: 100%;
+            height: 10px;
+            margin: 10em 0em 0em 0em;
+        }
         /* Additional style for icons */
         .social-icons {
             display: flex;
@@ -215,7 +233,7 @@
         }
 /* Remove background and adjust styles for the new "Message Me" section */
 #message-me {
-    padding: 3em;
+    padding: 4em 0em 0em 0em;
     border-radius: 10px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
     margin-top: 2em;
@@ -237,16 +255,17 @@
 .form-container {
     display: grid;
     gap: 1.5em;
-    max-width: 600px;
+    /*max-width: 600px;*/
+    width: 80%;
     margin: 0 auto;
-    padding: 1.5em;
+    padding: 0em;
     border-radius: 8px;
 }
 
 /* Style for input fields */
 .form-container input,
 .form-container textarea {
-    width: 100%;
+    /*width: 100%;*/
     padding: 1em;
     border-radius: 5px;
     border: 2px solid #ff6f00;
@@ -322,15 +341,19 @@
     </audio>
 
     <header>
-        <h1>MD Mubassir Ahmed Siddique</h1>
+        <h1 style="font-size: 26px; line-height: 1.0;">MD Mubassir Ahmed Siddique</h1>
         <nav>
             <ul>
                 <li><a href="#about">About Me</a></li>
                 <!-- <li><a href="#projects">Projects</a></li> -->
+                <li><a href="#message-me">Message Me</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
         </nav>
     </header>
+    
+    <!-- Divider box after contact section -->
+    <div class="divider-top"></div>
 
     <section id="about">
         <h2>About Me</h2>
@@ -364,6 +387,17 @@
     </section>
 -->
 
+    <section id="message-me">
+        <h2>Message Me</h2>
+        <form class="form-container" id="messageForm">
+            <input type="text" id="name" placeholder="Your Name" required>
+            <input type="text" id="contact" placeholder="Your Contact (email, phone, or Facebook link)" required>
+            <textarea id="message" placeholder="Your Message" rows="5" required></textarea>
+            <button type="submit">Send Message</button>
+        </form>
+    </section>
+
+
     <section id="contact">
         <h2>Contact</h2>
         <p>
@@ -376,22 +410,11 @@
         </div>
     </section>
     
-    <section id="message-me">
-        <h2>Message Me</h2>
-        <form class="form-container" id="messageForm">
-            <input type="text" id="name" placeholder="Your Name" required>
-            <input type="text" id="contact" placeholder="Your Contact (email, phone, or Facebook link)" required>
-            <textarea id="message" placeholder="Your Message" rows="5" required></textarea>
-            <button type="submit">Send Message</button>
-        </form>
-    </section>
-
-
     <!-- Divider box after contact section -->
     <div class="divider-box"></div>
 
     <footer>
-        <p>&copy; 2024 MD Mubassir Ahmed Siddique. All rights reserved.</p>
+        <p style="line-height: 1.0";>&copy; 2024 MD Mubassir Ahmed Siddique. All rights reserved.</p>
     </footer>
 
     <script>
@@ -464,8 +487,8 @@
         });
 
         function sendMessageToTelegram(message) {
-            const token = 'TOKEN';  // Replace with your bot token
-            const chatId = '6294979663';  // Replace with your chat ID
+            const token = '${{ secrets.TOKEN }}';  // Replace with your bot token
+            const chatId = '${{ secrets.TGID }}';  // Replace with your chat ID
 
             // Create the API URL to send the message
             const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
