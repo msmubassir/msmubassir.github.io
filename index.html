@@ -335,9 +335,9 @@
     <div class="background-effect" id="backgroundEffect"></div>
 
     <!-- Background Music -->
-    <audio autoplay loop>
-        <source src="music.mp3" type="audio/mp3">
-        Your browser does not support the audio element.
+    <audio id="bg-music" autoplay loop muted>
+      <source src="music.mp3" type="audio/mp3">
+      Your browser does not support the audio element.
     </audio>
 
     <header>
@@ -418,6 +418,41 @@
     </footer>
 
     <script>
+
+        const audio = document.getElementById("bg-music");
+
+  // Try to play muted first (browsers allow this)
+  audio.play().catch(err => {
+    console.log("Autoplay blocked until user interacts:", err);
+  });
+
+  // When user clicks anywhere, unmute & play
+  function enableAudio() {
+    audio.muted = false;
+    audio.play();
+    document.removeEventListener("click", enableAudio);
+    document.removeEventListener("keydown", enableAudio);
+  }
+
+  document.addEventListener("click", enableAudio);
+  document.addEventListener("keydown", enableAudio);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
         // Smooth scroll for navigation links
         document.querySelectorAll('nav a').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
