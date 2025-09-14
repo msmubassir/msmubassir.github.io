@@ -10,7 +10,7 @@ class WebDeployer:
         self.telegram_bot_token = telegram_bot_token or os.getenv('TELEGRAM_BOT_TOKEN')
         self.telegram_chat_id = telegram_chat_id or os.getenv('TELEGRAM_CHAT_ID')
         
-    def build_web_app(self, base_url="/mubassir.github.io"):
+    def build_web_app(self, base_url="/msmubassir.github.io"):
         """Build the Flet web application"""
         try:
             print("Building web application...")
