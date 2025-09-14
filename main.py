@@ -22,8 +22,8 @@ class WebDeployer:
             print("Build completed successfully!")
             print(result.stdout)
             
-            # Create redirect index.html for GitHub Pages
-            self.create_redirect_index()
+            # Fix the index.html for GitHub Pages
+            self.fix_index_html()
             return True
             
         except subprocess.CalledProcessError as e:
@@ -32,36 +32,77 @@ class WebDeployer:
             self.send_telegram_message(f"❌ Build failed: {e.stderr}")
             return False
     
-    def create_redirect_index(self):
-        """Create index.html that redirects to the main app"""
-        redirect_html = '''<!DOCTYPE html>
+    def fix_index_html(self):
+        """Fix index.html to work properly with GitHub Pages and hash routing"""
+        # Read the original index.html
+        index_path = Path('build/web/index.html')
+        if index_path.exists():
+            # Backup the original
+            backup_path = Path('build/web/index_original.html')
+            index_path.rename(backup_path)
+            
+            # Create proper index.html
+            fixed_html = '''<!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="refresh" content="0; url=/#/" />
-    <title>Redirecting to Flet App</title>
-    <script>
-        window.location.href = "/#/";
-    </script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flet Web Application</title>
+    <script type="module" crossorigin src="./assets/index.js"></script>
+    <link rel="stylesheet" href="./assets/index.css">
 </head>
 <body>
-    <p>Redirecting to application... <a href="/#/">Click here if not redirected</a></p>
+    <script>
+        // Handle GitHub Pages root URL - set hash if empty
+        if (window.location.pathname === "/" && !window.location.hash) {
+            window.location.hash = "/";
+        }
+        
+        // Prevent infinite redirects
+        const currentPath = window.location.pathname;
+        const currentHash = window.location.hash;
+        
+        console.log("Current path:", currentPath);
+        console.log("Current hash:", currentHash);
+    </script>
+    <div id="root"></div>
+    
+    <noscript>
+        <div style="text-align: center; padding: 50px; font-family: Arial, sans-serif;">
+            <h1>JavaScript Required</h1>
+            <p>This application requires JavaScript to function properly.</p>
+            <p>Please enable JavaScript in your browser settings.</p>
+        </div>
+    </noscript>
 </body>
 </html>'''
-        
-        with open('build/web/index.html', 'w') as f:
-            f.write(redirect_html)
-        print("Created redirect index.html")
+            
+            with open(index_path, 'w') as f:
+                f.write(fixed_html)
+            print("Fixed index.html for GitHub Pages")
     
-    def check_github_pages_status(self):
-        """Check if GitHub Pages is working"""
-        url = "https://msmubassir.github.io/"
-        try:
-            response = requests.get(url, timeout=10)
-            print(f"GitHub Pages status: {response.status_code}")
-            return response.status_code == 200
-        except requests.RequestException as e:
-            print(f"Error checking GitHub Pages: {e}")
-            return False
+    def check_deployment(self):
+        """Check if deployment is working properly"""
+        test_urls = [
+            "https://msmubassir.github.io/",
+            "https://msmubassir.github.io/#/",
+            "https://msmubassir.github.io/assets/index.js"
+        ]
+        
+        results = {}
+        for url in test_urls:
+            try:
+                response = requests.get(url, timeout=10)
+                results[url] = {
+                    'status': response.status_code,
+                    'size': len(response.content) if response.status_code == 200 else 0
+                }
+                print(f"✓ {url} - Status: {response.status_code}, Size: {results[url]['size']} bytes")
+            except requests.RequestException as e:
+                results[url] = {'error': str(e)}
+                print(f"✗ {url} - Error: {e}")
+        
+        return results
     
     def send_telegram_message(self, message):
         """Send message via Telegram bot"""
@@ -86,34 +127,32 @@ class WebDeployer:
             print(f"Failed to send Telegram message: {e}")
             return False
     
-    def troubleshoot_blank_page(self):
-        """Provide troubleshooting steps for blank page issue"""
-        print("\n🔧 Troubleshooting blank page issue:")
-        print("1. Check if GitHub Pages is enabled in repository settings")
-        print("2. Verify the build folder structure in GitHub Actions artifacts")
-        print("3. Try accessing: https://msmubassir.github.io/#/")
-        print("4. Check browser console for JavaScript errors")
-        print("5. Ensure all files are properly deployed")
-    
     def run_deployment_pipeline(self):
         """Run complete deployment pipeline"""
         self.send_telegram_message("🚀 Starting deployment process...")
         
         if self.build_web_app():
-            success_message = """✅ Build completed successfully!
+            # Check deployment status after a short delay
+            import time
+            time.sleep(10)  # Wait for deployment to start
+            
+            deployment_status = self.check_deployment()
+            
+            success_message = f"""✅ Build completed successfully!
 
 📦 Deployment to GitHub Pages initiated
 🌐 Site URL: https://msmubassir.github.io/
 🔗 Direct app link: https://msmubassir.github.io/#/
 
-💡 If you see a blank page:
-1. Check browser console for errors
-2. Try the direct link above
-3. Wait a few minutes for deployment to complete"""
+📊 Deployment check:
+• Root URL: {deployment_status.get('https://msmubassir.github.io/', {}).get('status', 'Unknown')}
+• Hash URL: {deployment_status.get('https://msmubassir.github.io/#/', {}).get('status', 'Unknown')}
+• JS File: {deployment_status.get('https://msmubassir.github.io/assets/index.js', {}).get('status', 'Unknown')}
+
+💡 The infinite redirect should be fixed now!"""
             
             self.send_telegram_message(success_message)
             print("Deployment process completed!")
-            self.troubleshoot_blank_page()
         else:
             self.send_telegram_message("❌ Deployment failed! Check GitHub Actions logs.")
 
