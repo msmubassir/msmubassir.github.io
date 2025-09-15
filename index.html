@@ -1047,7 +1047,7 @@
           </div>
           <div class="copyright">
             <p>
-              &copy; 2025 MD Mubassir Ahmed Siddique. All rights reserved.
+              &copy; <span id="currentYear"></span> MD Mubassir Ahmed Siddique. All rights reserved.
             </p>
           </div>
         </div>
@@ -1066,6 +1066,9 @@
           : '<i class="fas fa-bars"></i>';
       });
 
+      // Automatic year update
+      document.getElementById("currentYear").textContent = new Date().getFullYear();
+      
       // Close mobile nav when clicking on a link
       document.querySelectorAll(".nav-links a").forEach((link) => {
         link.addEventListener("click", () => {
