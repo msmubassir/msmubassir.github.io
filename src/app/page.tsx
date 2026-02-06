@@ -88,24 +88,54 @@ export default function Home() {
             Md Mubassir Ahmed Siddique
           </span>
           <nav className="hidden items-center gap-6 text-sm text-white/70 md:flex">
-            {["about", "skills", "projects", "experience", "testimonials", "contact"].map(
-              (item) => (
-                <a
-                  key={item}
-                  href={`#${item}`}
-                  className="transition hover:text-white"
-                >
-                  {item}
-                </a>
-              )
-            )}
+            {[
+              "about",
+              "skills",
+              "projects",
+              "experience",
+              "testimonials",
+              "contact",
+            ].map((item) => (
+              <a
+                key={item}
+                href={`#${item}`}
+                className="transition hover:text-white"
+              >
+                {item}
+              </a>
+            ))}
           </nav>
-          <a
-            href="#contact"
-            className="rounded-full border border-white/20 px-4 py-2 text-sm text-white/80 transition hover:border-white/60 hover:text-white"
-          >
-            Let&apos;s Talk
-          </a>
+          <div className="flex items-center gap-3">
+            <a
+              href="#contact"
+              className="hidden rounded-full border border-white/20 px-4 py-2 text-sm text-white/80 transition hover:border-white/60 hover:text-white md:inline-flex"
+            >
+              Let&apos;s Talk
+            </a>
+            <details className="relative md:hidden">
+              <summary className="list-none rounded-full border border-white/20 px-4 py-2 text-xs uppercase tracking-[0.2em] text-white/70 transition hover:border-white/60 hover:text-white">
+                Menu
+              </summary>
+              <div className="glass absolute right-0 mt-3 w-52 rounded-2xl p-3 text-sm text-white/80">
+                {[
+                  "about",
+                  "skills",
+                  "projects",
+                  "experience",
+                  "testimonials",
+                  "contact",
+                ].map((item) => (
+                  <a
+                    key={item}
+                    href={`#${item}`}
+                    className="block rounded-lg px-3 py-2 transition hover:bg-white/10"
+                  >
+                    {item}
+                  </a>
+                ))}
+              </div>
+            </details>
+          </div>
         </div>
       </header>
 
@@ -378,20 +408,43 @@ export default function Home() {
                     Share a project brief, timeline, or role. I respond quickly
                     and can jump into new engagements within 2-4 weeks.
                   </p>
-                  <div className="mt-6 flex flex-wrap gap-4">
-                    <a
-                      href="mailto:hello@mubassir.dev"
-                      className="rounded-full bg-[color:var(--accent)] px-6 py-3 text-sm font-semibold text-black"
+                  <form className="mt-8 grid gap-4">
+                    <div className="grid gap-4 sm:grid-cols-2">
+                      <label className="text-xs uppercase tracking-[0.2em] text-white/50">
+                        Name
+                        <input
+                          type="text"
+                          name="name"
+                          placeholder="Your name"
+                          className="mt-2 w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white placeholder:text-white/40 outline-none transition focus:border-white/40"
+                        />
+                      </label>
+                      <label className="text-xs uppercase tracking-[0.2em] text-white/50">
+                        Contact
+                        <input
+                          type="email"
+                          name="email"
+                          placeholder="Email or phone"
+                          className="mt-2 w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white placeholder:text-white/40 outline-none transition focus:border-white/40"
+                        />
+                      </label>
+                    </div>
+                    <label className="text-xs uppercase tracking-[0.2em] text-white/50">
+                      Message
+                      <textarea
+                        name="message"
+                        rows={4}
+                        placeholder="Tell me about your project..."
+                        className="mt-2 w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white placeholder:text-white/40 outline-none transition focus:border-white/40"
+                      ></textarea>
+                    </label>
+                    <button
+                      type="submit"
+                      className="w-full rounded-full bg-[color:var(--accent)] px-6 py-3 text-sm font-semibold text-black sm:w-auto"
                     >
-                      hello@mubassir.dev
-                    </a>
-                    <a
-                      href="#"
-                      className="rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white/70"
-                    >
-                      Download Resume
-                    </a>
-                  </div>
+                      Send Message
+                    </button>
+                  </form>
                 </div>
                 <div className="space-y-4 text-sm text-white/70">
                   <div className="ringed rounded-2xl bg-black/30 p-4">
@@ -417,6 +470,20 @@ export default function Home() {
                     <div className="mt-2 text-base text-white">
                       Remote-friendly, global clients
                     </div>
+                  </div>
+                  <div className="mt-6 flex flex-wrap gap-4">
+                    <a
+                      href="mailto:hello@mubassir.dev"
+                      className="rounded-full bg-[color:var(--accent)] px-6 py-3 text-sm font-semibold text-black"
+                    >
+                      hello@mubassir.dev
+                    </a>
+                    <a
+                      href="#"
+                      className="rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white/70"
+                    >
+                      Download Resume
+                    </a>
                   </div>
                 </div>
               </div>
