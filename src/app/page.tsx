@@ -438,8 +438,8 @@ export default function Home() {
         </section>
       </main>
 
-      <footer className="border-t border-white/5 px-6 py-8">
-        <div className="mx-auto flex w-full max-w-6xl flex-col items-center justify-between gap-4 text-xs uppercase tracking-[0.2em] text-white/50 md:flex-row">
+      <footer className="border-t border-white/5 px-4 py-8 sm:px-6">
+        <div className="mx-auto flex w-full max-w-6xl flex-col items-center justify-between gap-2 text-center text-xs uppercase tracking-[0.2em] text-white/50 md:flex-row md:gap-4 md:text-left">
           <span>(c) 2026 Md Mubassir Ahmed Siddique</span>
           <span>Built with TypeScript + Next.js</span>
         </div>
