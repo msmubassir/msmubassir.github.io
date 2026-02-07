@@ -207,14 +207,13 @@ export default function Home() {
             </div>
             <div className="space-y-5 text-sm text-[color:var(--muted)] sm:text-base">
               <p>
-                I specialize in TypeScript and Next.js, designing resilient
-                systems that scale from MVP to global product. My focus is on
-                performance, accessibility, and clean modular architecture.
+                I focus on TypeScript and Next.js, building clean, responsive
+                interfaces with strong performance and accessibility.
               </p>
               <p>
-                I work closely with founders, product teams, and designers to
-                transform bold ideas into delightful experiences. Expect crisp
-                UI, measurable impact, and a stress-free delivery cadence.
+                I am currently available for new opportunities and keep my
+                skills sharp through real-world projects, product prototypes,
+                and continuous learning.
               </p>
               <div className="flex flex-wrap gap-4">
                 {[
