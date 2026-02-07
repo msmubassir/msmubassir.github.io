@@ -95,7 +95,7 @@ export default function Home() {
   };
 
   return (
-    <div className="site-shell relative text-[color:var(--ink)]">
+    <div className="relative text-[color:var(--ink)]">
       <header className="sticky top-0 z-20 border-b border-white/5 bg-black/30 backdrop-blur">
         <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-5">
           <span className="text-display text-lg text-white/90">
