@@ -65,21 +65,6 @@ export default function Home() {
     },
   ];
 
-  const testimonials = [
-    {
-      name: "Ariana Torres",
-      role: "Product Lead, Nova Labs",
-      quote:
-        "Mubassir combines strong engineering with exquisite taste. He raised the bar for quality and speed.",
-    },
-    {
-      name: "Daniel Reed",
-      role: "Founder, Lumen",
-      quote:
-        "The new experience feels premium and fast. Our conversion jump was immediate.",
-    },
-  ];
-
   return (
     <div className="relative">
       <header className="sticky top-0 z-20 border-b border-white/5 bg-black/30 backdrop-blur">
@@ -93,7 +78,6 @@ export default function Home() {
               "skills",
               "projects",
               "experience",
-              "testimonials",
               "contact",
             ].map((item) => (
               <a
@@ -122,7 +106,6 @@ export default function Home() {
                   "skills",
                   "projects",
                   "experience",
-                  "testimonials",
                   "contact",
                 ].map((item) => (
                   <a
@@ -360,33 +343,6 @@ export default function Home() {
                   <span className="mt-4 text-xs uppercase tracking-[0.2em] text-white/50 md:mt-0">
                     {item.period}
                   </span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section id="testimonials" className="px-6 pb-20">
-          <div className="mx-auto w-full max-w-6xl">
-            <div className="mb-10">
-              <p className="text-display text-sm text-[color:var(--accent)]">
-                Testimonials
-              </p>
-              <h2 className="text-display text-3xl text-white md:text-4xl">
-                Partners I&apos;ve shipped with.
-              </h2>
-            </div>
-            <div className="grid gap-6 md:grid-cols-2">
-              {testimonials.map((item) => (
-                <div
-                  key={item.name}
-                  className="glass rounded-3xl p-6"
-                >
-                  <p className="text-base text-white/80">&ldquo;{item.quote}&rdquo;</p>
-                  <div className="mt-6 text-sm text-white/60">
-                    <div className="font-semibold text-white">{item.name}</div>
-                    {item.role}
-                  </div>
                 </div>
               ))}
             </div>
