@@ -116,6 +116,137 @@ body::before {
   color: #8ea3bb;
 }
 
+/* Structural fallback when utility CSS is not applied in older browsers. */
+.legacy-browser .site-shell {
+  color: #e6edf6;
+}
+
+.legacy-browser .site-shell header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.85);
+}
+
+.legacy-browser .site-shell header > div,
+.legacy-browser .site-shell main > section > div,
+.legacy-browser .site-shell footer > div {
+  max-width: 72rem;
+  margin: 0 auto;
+}
+
+.legacy-browser .site-shell header > div {
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.legacy-browser .site-shell nav {
+  display: none;
+}
+
+.legacy-browser .site-shell details {
+  position: relative;
+}
+
+.legacy-browser .site-shell details > div {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 0.5rem);
+  min-width: 12rem;
+  padding: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 0.75rem;
+  background: rgba(0, 0, 0, 0.95);
+}
+
+.legacy-browser .site-shell main > section {
+  padding: 2rem 1rem;
+}
+
+.legacy-browser .site-shell main > section:first-child {
+  padding-top: 2.5rem;
+}
+
+.legacy-browser .site-shell .glass,
+.legacy-browser .site-shell .ringed {
+  border-radius: 1rem;
+}
+
+.legacy-browser .site-shell .text-display {
+  letter-spacing: 0.03em;
+}
+
+.legacy-browser .site-shell button,
+.legacy-browser .site-shell a {
+  font: inherit;
+}
+
+.legacy-browser .site-shell section:nth-of-type(1) > div,
+.legacy-browser .site-shell section:nth-of-type(2) > div,
+.legacy-browser .site-shell section:nth-of-type(6) > div > div > div {
+  display: block;
+}
+
+.legacy-browser .site-shell section:nth-of-type(3) .grid,
+.legacy-browser .site-shell section:nth-of-type(4) .grid,
+.legacy-browser .site-shell section:nth-of-type(5) .grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.legacy-browser .site-shell footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.legacy-browser .site-shell footer > div {
+  padding: 1.25rem 1rem;
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .legacy-browser .site-shell nav {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .legacy-browser .site-shell details {
+    display: none;
+  }
+
+  .legacy-browser .site-shell main > section {
+    padding: 3.5rem 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .legacy-browser .site-shell section:nth-of-type(1) > div,
+  .legacy-browser .site-shell section:nth-of-type(2) > div {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 2.5rem;
+  }
+
+  .legacy-browser .site-shell section:nth-of-type(2) > div {
+    grid-template-columns: 0.9fr 1.1fr;
+  }
+
+  .legacy-browser .site-shell section:nth-of-type(3) .grid,
+  .legacy-browser .site-shell section:nth-of-type(4) .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .legacy-browser .site-shell section:nth-of-type(6) > div > div > div {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 2rem;
+  }
+}
+
 @keyframes fadeUp {
   from {
     opacity: 0;
