@@ -5,6 +5,9 @@ import { useEffect, useState } from "react";
 export default function Home() {
   const [formStatus, setFormStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [showTopButton, setShowTopButton] = useState(false);
+  const [reduceMotion, setReduceMotion] = useState(false);
+  const [disableScrollEnhancements, setDisableScrollEnhancements] = useState(false);
+  const [isLegacyBrowser, setIsLegacyBrowser] = useState(false);
   const stats = [
     { label: "Years Building", value: "5+" },
     { label: "Projects Shipped", value: "30+" },
@@ -66,19 +69,107 @@ export default function Home() {
   ];
 
   useEffect(() => {
+    if (typeof window === "undefined" || !window.matchMedia) return;
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => setReduceMotion(media.matches);
+    update();
+    if (typeof media.addEventListener === "function") {
+      media.addEventListener("change", update);
+      return () => media.removeEventListener("change", update);
+    }
+    media.addListener(update);
+    return () => media.removeListener(update);
+  }, []);
+
+  useEffect(() => {
+    if (typeof document === "undefined" || typeof window === "undefined") return;
+    const root = document.documentElement;
+    const legacyByClass = root.classList.contains("legacy-browser");
+    const isLegacy = legacyByClass || root.classList.contains("no-smooth-scroll");
+    setIsLegacyBrowser(legacyByClass);
+    setDisableScrollEnhancements(isLegacy);
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (disableScrollEnhancements) {
+      setShowTopButton(false);
+      return;
+    }
+    const raf =
+      window.requestAnimationFrame ||
+      ((callback: FrameRequestCallback) => window.setTimeout(() => callback(Date.now()), 16));
+    let ticking = false;
     const onScroll = () => {
-      setShowTopButton(window.scrollY > 240);
+      if (ticking) return;
+      ticking = true;
+      raf(() => {
+        setShowTopButton(window.pageYOffset > 240);
+        ticking = false;
+      });
     };
 
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [disableScrollEnhancements]);
+
+  const canUseSmoothScroll = () =>
+    typeof document !== "undefined" && "scrollBehavior" in document.documentElement.style;
+
+  const getScrollTop = () => {
+    if (typeof window === "undefined" || typeof document === "undefined") return 0;
+    return (
+      window.pageYOffset ||
+      document.documentElement.scrollTop ||
+      document.body.scrollTop ||
+      0
+    );
+  };
+
+  const forceScrollTop = (top: number) => {
+    const safeTop = Math.max(0, Math.floor(top));
+    try {
+      window.scrollTo(0, safeTop);
+    } catch {
+      // Ignore and use legacy assignments below.
+    }
+    if (typeof document !== "undefined") {
+      document.documentElement.scrollTop = safeTop;
+      document.body.scrollTop = safeTop;
+    }
+  };
+
+  const scrollToY = (top: number) => {
+    const safeTop = Math.max(0, Math.floor(top));
+    if (disableScrollEnhancements || reduceMotion || !canUseSmoothScroll()) {
+      forceScrollTop(safeTop);
+      return;
+    }
+    try {
+      window.scrollTo({ top: safeTop, behavior: "smooth" });
+    } catch {
+      forceScrollTop(safeTop);
+    }
+  };
+
+  const scrollToTop = () => {
+    scrollToY(0);
+  };
 
   const scrollToSection = (sectionId: string) => {
     const section = document.getElementById(sectionId);
     if (!section) return;
-    section.scrollIntoView({ behavior: "smooth", block: "start" });
+    const offset = disableScrollEnhancements ? 0 : 72;
+    const targetY = section.getBoundingClientRect().top + getScrollTop() - offset;
+    scrollToY(targetY);
+    if (Math.abs(getScrollTop() - Math.max(targetY, 0)) > 8 && "scrollIntoView" in section) {
+      try {
+        section.scrollIntoView(true);
+      } catch {
+        // Last resort already attempted with scrollToY.
+      }
+    }
     const openMenu = document.querySelector("details[open]");
     if (openMenu instanceof HTMLDetailsElement) {
       openMenu.open = false;
@@ -86,8 +177,8 @@ export default function Home() {
   };
 
   return (
-    <div className="relative">
-      <header className="sticky top-0 z-20 border-b border-white/5 bg-black/30 backdrop-blur">
+    <div className="site-shell relative">
+      <header className="sticky top-0 z-20 border-b border-white/5 bg-black/30">
         <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-5">
           <span className="text-display text-lg text-white/90">
             Md Mubassir Ahmed Siddique
@@ -144,6 +235,14 @@ export default function Home() {
           </div>
         </div>
       </header>
+
+      {isLegacyBrowser && (
+        <div className="mx-auto mt-4 w-full max-w-6xl px-4 sm:px-6">
+          <p className="rounded-2xl border border-amber-300/35 bg-amber-300/10 px-4 py-3 text-xs text-amber-100 sm:text-sm">
+            Your browser or webview is outdated. Update your browser/webview software for smoother scrolling and full visual quality.
+          </p>
+        </div>
+      )}
 
       <main className="relative z-10">
         <section className="relative overflow-hidden px-4 pt-16 sm:px-6 md:pt-28">
@@ -509,13 +608,13 @@ export default function Home() {
         </section>
       </main>
 
-      {showTopButton && (
+      {!disableScrollEnhancements && showTopButton && (
         <button
           type="button"
           aria-label="Go to top"
           title="Go to top"
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="fixed bottom-5 right-5 z-30 flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-black/70 text-white shadow-lg backdrop-blur transition hover:border-white/40 hover:bg-black/90"
+          onClick={scrollToTop}
+          className="fixed bottom-5 right-5 z-30 flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-black/70 text-white shadow-lg transition hover:border-white/40 hover:bg-black/90"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

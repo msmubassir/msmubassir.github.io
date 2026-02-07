@@ -1,4 +1,6 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
   --bg: #0b0f14;
@@ -12,23 +14,20 @@
   --glow: rgba(255, 122, 24, 0.35);
 }
 
-@theme inline {
-  --font-sans: var(--font-sans);
-  --font-display: var(--font-display);
-}
-
 body {
+  position: relative;
   background: radial-gradient(1200px 800px at 15% -10%, #172235 0%, transparent 60%),
     radial-gradient(900px 700px at 85% 10%, #0f3a35 0%, transparent 55%),
     linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
   color: var(--ink);
   font-family: var(--font-sans), system-ui, -apple-system, "Segoe UI", sans-serif;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 body::before {
   content: "";
-  position: fixed;
+  position: absolute;
   inset: 0;
   background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
   background-size: 28px 28px;
@@ -49,9 +48,16 @@ body::before {
 }
 
 .glass {
-  background: rgba(18, 26, 37, 0.7);
+  background: rgba(18, 26, 37, 0.88);
   border: 1px solid var(--line);
-  backdrop-filter: blur(12px);
+}
+
+@supports ((-webkit-backdrop-filter: blur(12px)) or (backdrop-filter: blur(12px))) {
+  .glass {
+    background: rgba(18, 26, 37, 0.7);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
 }
 
 .glow {
@@ -73,6 +79,63 @@ body::before {
 
 .pulse-glow {
   animation: pulseGlow 4s ease-in-out infinite;
+}
+
+.no-mask body::before {
+  display: none;
+}
+
+.no-backdrop .glass,
+.legacy-browser .glass {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  background: rgba(18, 26, 37, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.legacy-browser .glow {
+  box-shadow: none;
+}
+
+.legacy-browser .float,
+.legacy-browser .pulse-glow {
+  animation: none;
+}
+
+.legacy-browser body::before {
+  display: none;
+}
+
+.legacy-browser .site-shell header {
+  position: static;
+}
+
+.legacy-browser .site-shell header nav,
+.legacy-browser .site-shell header details {
+  display: none !important;
+}
+
+.legacy-browser button[aria-label="Go to top"] {
+  display: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+.reduced-motion *,
+.reduced-motion *::before,
+.reduced-motion *::after {
+  animation: none !important;
+  transition: none !important;
 }
 
 @keyframes fadeUp {
