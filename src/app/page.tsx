@@ -426,16 +426,10 @@ export default function Home() {
                   </div>
                   <div className="mt-6 flex flex-wrap gap-4">
                     <a
-                      href="mailto:hello@mubassir.dev"
-                      className="rounded-full bg-[color:var(--accent)] px-6 py-3 text-sm font-semibold text-black"
+                      href="mailto:masmubassir@gmail.com"
+                      className="mx-auto rounded-full bg-[color:var(--accent)] px-6 py-3 text-sm font-semibold text-black"
                     >
-                      hello@mubassir.dev
-                    </a>
-                    <a
-                      href="#"
-                      className="rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white/70"
-                    >
-                      Download Resume
+                      masmubassir@gmail.com
                     </a>
                   </div>
                 </div>
