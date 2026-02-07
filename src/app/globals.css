@@ -121,10 +121,6 @@ body::before {
   color: #e6edf6;
 }
 
-.legacy-browser .site-shell .hidden {
-  display: none !important;
-}
-
 .legacy-browser .site-shell header {
   position: sticky;
   top: 0;
@@ -190,11 +186,6 @@ body::before {
 .legacy-browser .site-shell button,
 .legacy-browser .site-shell a {
   font: inherit;
-}
-
-.legacy-browser .site-shell a {
-  color: inherit;
-  text-decoration: none;
 }
 
 .legacy-browser .site-shell button {
@@ -273,83 +264,8 @@ body::before {
 .legacy-browser .site-shell section:nth-of-type(4) .grid,
 .legacy-browser .site-shell section:nth-of-type(5) .grid {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 1fr 1fr;
   gap: 0.75rem;
-}
-
-.legacy-browser .site-shell section:nth-of-type(2) .flex.flex-wrap.gap-4 {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0;
-}
-
-.legacy-browser .site-shell section:nth-of-type(2) .flex.flex-wrap.gap-4 > span {
-  display: inline-block;
-  margin-right: 0.5rem;
-  margin-bottom: 0.5rem;
-}
-
-.legacy-browser .site-shell section:nth-of-type(4) article .mt-6.flex.flex-wrap.gap-2,
-.legacy-browser .site-shell section:nth-of-type(6) .mt-6.flex.flex-wrap.gap-4 {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0;
-}
-
-.legacy-browser .site-shell section:nth-of-type(4) article .mt-6.flex.flex-wrap.gap-2 > span,
-.legacy-browser .site-shell section:nth-of-type(6) .mt-6.flex.flex-wrap.gap-4 > * {
-  display: inline-block;
-  margin-right: 0.5rem;
-  margin-bottom: 0.5rem;
-}
-
-.legacy-browser .site-shell section:nth-of-type(6) form label {
-  display: block;
-}
-
-.legacy-browser .site-shell section:nth-of-type(6) form input,
-.legacy-browser .site-shell section:nth-of-type(6) form textarea {
-  display: block;
-  width: 100%;
-  margin-top: 0.35rem;
-}
-
-.legacy-browser .site-shell section:nth-of-type(6) form button[type="submit"] {
-  display: inline-block;
-  margin-top: 0.5rem;
-  padding: 0.5rem 0.9rem;
-  border-radius: 999px;
-  background: #ff7a18;
-  border-color: #ff7a18;
-  color: #0b0f14;
-}
-
-.legacy-browser .site-shell section:nth-of-type(6) .mt-6.flex.flex-wrap.gap-4 a[href^="mailto:"] {
-  display: inline-block;
-  padding: 0.5rem 0.9rem;
-  border-radius: 999px;
-  background: #ff7a18;
-  color: #0b0f14;
-}
-
-.legacy-browser .site-shell button[aria-label="Go to top"] {
-  position: fixed;
-  right: 1rem;
-  bottom: 1rem;
-  z-index: 30;
-  width: 2.75rem;
-  height: 2.75rem;
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  background: rgba(0, 0, 0, 0.85);
-  color: #e6edf6;
-}
-
-.legacy-browser .site-shell button[aria-label="Go to top"] svg {
-  width: 1.25rem;
-  height: 1.25rem;
-  display: block;
-  margin: 0 auto;
 }
 
 .legacy-browser .site-shell footer {
@@ -359,14 +275,6 @@ body::before {
 .legacy-browser .site-shell footer > div {
   padding: 1.25rem 1rem;
   text-align: center;
-}
-
-.legacy-browser .site-shell footer > div > span {
-  display: block;
-}
-
-.legacy-browser .site-shell footer > div > span + span {
-  margin-top: 0.35rem;
 }
 
 @media (min-width: 768px) {
@@ -406,11 +314,6 @@ body::before {
     gap: 1rem;
   }
 
-  .legacy-browser .site-shell section:nth-of-type(5) .grid {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-
   .legacy-browser .site-shell section:nth-of-type(1) .flex.flex-wrap.gap-4 {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
@@ -419,15 +322,6 @@ body::before {
     display: grid;
     grid-template-columns: 1.1fr 0.9fr;
     gap: 2rem;
-  }
-
-  .legacy-browser .site-shell footer > div > span {
-    display: inline-block;
-  }
-
-  .legacy-browser .site-shell footer > div > span + span {
-    margin-top: 0;
-    margin-left: 0.75rem;
   }
 }
 
