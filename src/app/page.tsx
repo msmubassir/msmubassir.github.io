@@ -137,16 +137,16 @@ export default function Home() {
                   experiences. I blend design systems with engineering rigor.
                 </p>
               </div>
-              <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-4">
+              <div className="flex flex-row flex-wrap gap-4">
                 <a
                   href="#projects"
-                  className="pulse-glow w-full rounded-full bg-[color:var(--accent)] px-6 py-3 text-sm font-semibold text-black transition hover:brightness-110 sm:w-auto"
+                  className="pulse-glow rounded-full bg-[color:var(--accent)] px-6 py-3 text-sm font-semibold text-black transition hover:brightness-110"
                 >
                   View Projects
                 </a>
                 <a
                   href="#contact"
-                  className="w-full rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white/80 transition hover:border-white/60 hover:text-white sm:w-auto"
+                  className="rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white/80 transition hover:border-white/60 hover:text-white"
                 >
                   Book a Call
                 </a>
