@@ -78,7 +78,11 @@ export default function Home() {
   const scrollToSection = (sectionId: string) => {
     const section = document.getElementById(sectionId);
     if (!section) return;
-    section.scrollIntoView({ behavior: "smooth", block: "start" });
+    const header = document.querySelector("header");
+    const headerHeight = header instanceof HTMLElement ? header.offsetHeight : 0;
+    const extraGap = 12;
+    const top = section.getBoundingClientRect().top + window.scrollY - headerHeight - extraGap;
+    window.scrollTo({ top: Math.max(top, 0), behavior: "smooth" });
   };
 
   return (
