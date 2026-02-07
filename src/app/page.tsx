@@ -253,7 +253,7 @@ export default function Home() {
                 Always shipping, always learning
               </span>
             </div>
-            <div className="grid gap-4 md:grid-cols-3">
+            <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
               {skills.map((skill) => (
                 <div
                   key={skill}
