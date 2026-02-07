@@ -413,7 +413,7 @@ export default function Home() {
                       Focus
                     </div>
                     <div className="mt-2 text-base text-white">
-                      SaaS, AI tooling, and premium web products
+                      Premium web products and Telegram bot
                     </div>
                   </div>
                   <div className="ringed rounded-2xl bg-black/30 p-4">
