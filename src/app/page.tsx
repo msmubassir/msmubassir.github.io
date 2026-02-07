@@ -121,7 +121,7 @@ export default function Home() {
 
       <main className="relative z-10">
         <section className="relative overflow-hidden px-6 pt-20 md:pt-28">
-          <div className="mx-auto grid w-full max-w-6xl gap-12 md:grid-cols-[1.2fr_0.8fr]">
+          <div className="mx-auto grid w-full max-w-6xl gap-12 lg:grid-cols-[1.2fr_0.8fr]">
             <div className="space-y-8">
               <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs uppercase tracking-[0.2em] text-white/70">
                 Personal Portfolio
@@ -151,11 +151,11 @@ export default function Home() {
                   Book a Call
                 </a>
               </div>
-              <div className="flex flex-wrap gap-6">
+              <div className="flex flex-wrap gap-4 sm:gap-6">
                 {stats.map((stat) => (
                   <div
                     key={stat.label}
-                    className="glass rounded-2xl px-5 py-4"
+                    className="glass w-full rounded-2xl px-5 py-4 sm:w-auto"
                   >
                     <div className="text-2xl font-semibold text-white">
                       {stat.value}
@@ -199,7 +199,7 @@ export default function Home() {
         </section>
 
         <section id="about" className="px-6 py-20 md:py-24">
-          <div className="mx-auto grid w-full max-w-6xl gap-10 md:grid-cols-[0.9fr_1.1fr]">
+          <div className="mx-auto grid w-full max-w-6xl gap-10 lg:grid-cols-[0.9fr_1.1fr]">
             <div className="space-y-4">
               <p className="text-display text-sm text-[color:var(--accent)]">
                 About
@@ -253,7 +253,7 @@ export default function Home() {
                 Always shipping, always learning
               </span>
             </div>
-            <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {skills.map((skill) => (
                 <div
                   key={skill}
@@ -284,7 +284,7 @@ export default function Home() {
                 Request Case Study
               </a>
             </div>
-            <div className="grid gap-6 md:grid-cols-3">
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {projects.map((project) => (
                 <article
                   key={project.title}
@@ -326,7 +326,7 @@ export default function Home() {
               {experience.map((item) => (
                 <div
                   key={item.role}
-                  className="glass rounded-3xl p-6 md:flex md:items-center md:justify-between"
+                  className="glass rounded-3xl p-6 lg:flex lg:items-center lg:justify-between"
                 >
                   <div>
                     <h3 className="text-lg font-semibold text-white">
@@ -334,10 +334,10 @@ export default function Home() {
                     </h3>
                     <p className="text-sm text-white/60">{item.company}</p>
                   </div>
-                  <p className="mt-4 max-w-xl text-sm text-[color:var(--muted)] md:mt-0">
+                  <p className="mt-4 max-w-xl text-sm text-[color:var(--muted)] lg:mt-0">
                     {item.summary}
                   </p>
-                  <span className="mt-4 text-xs uppercase tracking-[0.2em] text-white/50 md:mt-0">
+                  <span className="mt-4 text-xs uppercase tracking-[0.2em] text-white/50 lg:mt-0">
                     {item.period}
                   </span>
                 </div>
@@ -349,7 +349,7 @@ export default function Home() {
         <section id="contact" className="px-6 pb-24">
           <div className="mx-auto w-full max-w-6xl">
             <div className="glass rounded-[36px] p-8 md:p-12">
-              <div className="grid gap-10 md:grid-cols-[1.1fr_0.9fr]">
+              <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr]">
                 <div>
                   <p className="text-display text-sm text-[color:var(--accent)]">
                     Contact
@@ -441,7 +441,7 @@ export default function Home() {
 
       <footer className="border-t border-white/5 px-6 py-8">
         <div className="mx-auto flex w-full max-w-6xl flex-col items-center justify-between gap-4 text-xs uppercase tracking-[0.2em] text-white/50 md:flex-row">
-          <span>© 2026 Md Mubassir Ahmed Siddique</span>
+          <span>(c) 2026 Md Mubassir Ahmed Siddique</span>
           <span>Built with TypeScript + Next.js</span>
         </div>
       </footer>
