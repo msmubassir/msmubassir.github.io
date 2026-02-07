@@ -13,11 +13,8 @@ export default function Home() {
     "Tailwind CSS",
     "Framer Motion",
     "PostgreSQL",
-    "GraphQL",
     "REST APIs",
     "Testing Library",
-    "CI/CD",
-    "Design Systems",
   ];
 
   const projects = [
