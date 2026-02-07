@@ -356,7 +356,18 @@ export default function Home() {
                     Share a project brief, timeline, or role. I respond quickly
                     and can jump into new engagements within 3 days.
                   </p>
-                  <form className="mt-6 grid gap-4 sm:mt-8">
+                  <form
+                    className="mt-6 grid gap-4 sm:mt-8"
+                    method="POST"
+                    action="https://YOUR-WORKER-URL.workers.dev/contact"
+                  >
+                    <input
+                      type="text"
+                      name="website"
+                      tabIndex={-1}
+                      autoComplete="off"
+                      className="hidden"
+                    />
                     <div className="grid gap-4 sm:grid-cols-2">
                       <label className="text-xs uppercase tracking-[0.2em] text-white/50">
                         Name
@@ -364,6 +375,7 @@ export default function Home() {
                           type="text"
                           name="name"
                           placeholder="Your name"
+                          required
                           className="mt-2 w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white placeholder:text-white/40 outline-none transition focus:border-white/40"
                         />
                       </label>
@@ -373,6 +385,7 @@ export default function Home() {
                           type="email"
                           name="email"
                           placeholder="Email or phone"
+                          required
                           className="mt-2 w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white placeholder:text-white/40 outline-none transition focus:border-white/40"
                         />
                       </label>
@@ -383,6 +396,7 @@ export default function Home() {
                         name="message"
                         rows={4}
                         placeholder="Tell me about your project..."
+                        required
                         className="mt-2 w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white placeholder:text-white/40 outline-none transition focus:border-white/40"
                       ></textarea>
                     </label>
