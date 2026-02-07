@@ -75,6 +75,12 @@ export default function Home() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  const scrollToSection = (sectionId: string) => {
+    const section = document.getElementById(sectionId);
+    if (!section) return;
+    section.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
   return (
     <div className="relative">
       <header className="sticky top-0 z-20 border-b border-white/5 bg-black/30 backdrop-blur">
@@ -90,22 +96,24 @@ export default function Home() {
               "experience",
               "contact",
             ].map((item) => (
-              <a
+              <button
                 key={item}
-                href={`#${item}`}
-                className="transition hover:text-white"
+                type="button"
+                onClick={() => scrollToSection(item)}
+                className="cursor-pointer bg-transparent transition hover:text-white"
               >
                 {item}
-              </a>
+              </button>
             ))}
           </nav>
           <div className="flex items-center gap-3">
-            <a
-              href="#contact"
-              className="hidden rounded-full border border-white/20 px-4 py-2 text-sm text-white/80 transition hover:border-white/60 hover:text-white md:inline-flex"
+            <button
+              type="button"
+              onClick={() => scrollToSection("contact")}
+              className="hidden cursor-pointer rounded-full border border-white/20 px-4 py-2 text-sm text-white/80 transition hover:border-white/60 hover:text-white md:inline-flex"
             >
               Let&apos;s Talk
-            </a>
+            </button>
             <details className="relative md:hidden">
               <summary className="list-none rounded-full border border-white/20 px-4 py-2 text-xs uppercase tracking-[0.2em] text-white/70 transition hover:border-white/60 hover:text-white">
                 Menu
@@ -118,13 +126,14 @@ export default function Home() {
                   "experience",
                   "contact",
                 ].map((item) => (
-                  <a
+                  <button
                     key={item}
-                    href={`#${item}`}
-                    className="block rounded-lg px-3 py-2 transition hover:bg-white/10"
+                    type="button"
+                    onClick={() => scrollToSection(item)}
+                    className="block w-full cursor-pointer rounded-lg bg-transparent px-3 py-2 text-left transition hover:bg-white/10"
                   >
                     {item}
-                  </a>
+                  </button>
                 ))}
               </div>
             </details>
@@ -151,18 +160,20 @@ export default function Home() {
                 </p>
               </div>
               <div className="flex flex-row flex-wrap gap-4">
-                <a
-                  href="#projects"
-                  className="pulse-glow rounded-full bg-[color:var(--accent)] px-6 py-3 text-sm font-semibold text-black transition hover:brightness-110"
+                <button
+                  type="button"
+                  onClick={() => scrollToSection("projects")}
+                  className="pulse-glow cursor-pointer rounded-full bg-[color:var(--accent)] px-6 py-3 text-sm font-semibold text-black transition hover:brightness-110"
                 >
                   View Projects
-                </a>
-                <a
-                  href="#contact"
-                  className="rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white/80 transition hover:border-white/60 hover:text-white"
+                </button>
+                <button
+                  type="button"
+                  onClick={() => scrollToSection("contact")}
+                  className="cursor-pointer rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white/80 transition hover:border-white/60 hover:text-white"
                 >
                   Book a Call
-                </a>
+                </button>
               </div>
               <div className="flex flex-wrap gap-4 sm:gap-6">
                 {stats.map((stat) => (
