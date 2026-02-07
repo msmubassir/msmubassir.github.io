@@ -332,7 +332,6 @@ export default function Home() {
                     <h3 className="text-lg font-semibold text-white">
                       {item.role}
                     </h3>
-                    <p className="text-sm text-white/60">{item.company}</p>
                   </div>
                   <p className="mt-4 max-w-xl text-sm text-[color:var(--muted)] lg:mt-0">
                     {item.summary}
