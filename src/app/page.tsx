@@ -483,6 +483,27 @@ export default function Home() {
         </section>
       </main>
 
+      <a
+        href="#"
+        aria-label="Go to top"
+        title="Go to top"
+        className="fixed bottom-5 right-5 z-30 flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-black/70 text-white shadow-lg backdrop-blur transition hover:border-white/40 hover:bg-black/90"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="h-5 w-5"
+        >
+          <path d="M12 19V5" />
+          <path d="m5 12 7-7 7 7" />
+        </svg>
+      </a>
+
       <footer className="border-t border-white/5 px-4 py-8 sm:px-6">
         <div className="mx-auto flex w-full max-w-6xl flex-col items-center justify-between gap-2 text-center text-xs uppercase tracking-[0.2em] text-white/50 md:flex-row md:gap-4 md:text-left">
           <span>(c) 2026 Md Mubassir Ahmed Siddique</span>
