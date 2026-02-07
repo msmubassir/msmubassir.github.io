@@ -1,9 +1,5 @@
 import type { Metadata } from "next";
-import {
-  Bebas_Neue,
-  JetBrains_Mono,
-  Space_Grotesk,
-} from "next/font/google";
+import { Bebas_Neue, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 
 const display = Bebas_Neue({
@@ -14,11 +10,6 @@ const display = Bebas_Neue({
 
 const sans = Space_Grotesk({
   variable: "--font-sans",
-  subsets: ["latin"],
-});
-
-const mono = JetBrains_Mono({
-  variable: "--font-mono",
   subsets: ["latin"],
 });
 
@@ -35,7 +26,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${display.variable} ${sans.variable} ${mono.variable}`}>
+      <body className={`${display.variable} ${sans.variable}`}>
         {children}
       </body>
     </html>
