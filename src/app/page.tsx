@@ -97,7 +97,7 @@ export default function Home() {
               <summary className="list-none rounded-full border border-white/20 px-4 py-2 text-xs uppercase tracking-[0.2em] text-white/70 transition hover:border-white/60 hover:text-white">
                 Menu
               </summary>
-              <div className="glass absolute right-0 mt-3 w-52 rounded-2xl p-3 text-sm text-white/80">
+              <div className="glass absolute right-0 mt-3 w-52 rounded-2xl bg-black/80 p-3 text-sm text-white/80">
                 {[
                   "about",
                   "skills",
