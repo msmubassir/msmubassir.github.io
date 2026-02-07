@@ -184,10 +184,64 @@ body::before {
   font: inherit;
 }
 
+.legacy-browser .site-shell button {
+  appearance: none;
+  -webkit-appearance: none;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: transparent;
+  color: #e6edf6;
+}
+
+.legacy-browser .site-shell summary {
+  list-style: none;
+}
+
 .legacy-browser .site-shell section:nth-of-type(1) > div,
 .legacy-browser .site-shell section:nth-of-type(2) > div,
 .legacy-browser .site-shell section:nth-of-type(6) > div > div > div {
   display: block;
+}
+
+.legacy-browser .site-shell section:nth-of-type(1) .space-y-8 > * + * {
+  margin-top: 1rem;
+}
+
+.legacy-browser .site-shell section:nth-of-type(1) .space-y-4 > * + * {
+  margin-top: 0.75rem;
+}
+
+.legacy-browser .site-shell section:nth-of-type(1) .flex.flex-row.flex-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.legacy-browser .site-shell section:nth-of-type(1) .flex.flex-row.flex-wrap button:first-child {
+  background: #ff7a18;
+  color: #0b0f14;
+  border-color: #ff7a18;
+}
+
+.legacy-browser .site-shell section:nth-of-type(1) .flex.flex-wrap.gap-4 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+}
+
+.legacy-browser .site-shell section:nth-of-type(1) .flex.flex-wrap.gap-4 > div {
+  padding: 0.75rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+  background: rgba(18, 26, 37, 0.95);
+}
+
+.legacy-browser .site-shell section:nth-of-type(1) .glass.glow {
+  margin-top: 1.25rem;
+  padding: 1rem;
+}
+
+.legacy-browser .site-shell section:nth-of-type(1) .glass.glow .mt-6.space-y-4 > * + * {
+  margin-top: 0.5rem;
 }
 
 .legacy-browser .site-shell section:nth-of-type(3) .grid,
@@ -238,6 +292,10 @@ body::before {
   .legacy-browser .site-shell section:nth-of-type(4) .grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 1rem;
+  }
+
+  .legacy-browser .site-shell section:nth-of-type(1) .flex.flex-wrap.gap-4 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .legacy-browser .site-shell section:nth-of-type(6) > div > div > div {
