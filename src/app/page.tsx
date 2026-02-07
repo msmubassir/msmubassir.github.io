@@ -75,15 +75,6 @@ export default function Home() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => {
-    const supportsOklch =
-      typeof CSS !== "undefined" &&
-      typeof CSS.supports === "function" &&
-      CSS.supports("color", "oklch(0.6 0.1 250)");
-
-    document.documentElement.classList.toggle("legacy-browser", !supportsOklch);
-  }, []);
-
   const scrollToSection = (sectionId: string) => {
     const section = document.getElementById(sectionId);
     if (!section) return;
@@ -95,7 +86,7 @@ export default function Home() {
   };
 
   return (
-    <div className="relative text-[color:var(--ink)]">
+    <div className="relative">
       <header className="sticky top-0 z-20 border-b border-white/5 bg-black/30 backdrop-blur">
         <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-5">
           <span className="text-display text-lg text-white/90">
