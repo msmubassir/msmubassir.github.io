@@ -1,4 +1,9 @@
+\"use client\";
+
+import { useState } from "react";
+
 export default function Home() {
+  const [formStatus, setFormStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const stats = [
     { label: "Years Building", value: "5+" },
     { label: "Projects Shipped", value: "30+" },
@@ -358,8 +363,38 @@ export default function Home() {
                   </p>
                   <form
                     className="mt-6 grid gap-4 sm:mt-8"
-                    method="POST"
-                    action="https://YOUR-WORKER-URL.workers.dev/contact"
+                    onSubmit={async (event) => {
+                      event.preventDefault();
+                      setFormStatus("sending");
+                      const form = event.currentTarget;
+                      const data = new FormData(form);
+
+                      if (data.get("website")) {
+                        setFormStatus("sent");
+                        form.reset();
+                        return;
+                      }
+
+                      const payload = {
+                        name: String(data.get("name") || ""),
+                        contacts: String(data.get("contacts") || ""),
+                        message: String(data.get("message") || ""),
+                      };
+
+                      try {
+                        const res = await fetch("https://msnrtgapi2.vercel.app/receive", {
+                          method: "POST",
+                          headers: { "Content-Type": "application/json" },
+                          body: JSON.stringify(payload),
+                        });
+
+                        if (!res.ok) throw new Error("Request failed");
+                        setFormStatus("sent");
+                        form.reset();
+                      } catch {
+                        setFormStatus("error");
+                      }
+                    }}
                   >
                     <input
                       type="text"
@@ -382,8 +417,8 @@ export default function Home() {
                       <label className="text-xs uppercase tracking-[0.2em] text-white/50">
                         Contact
                         <input
-                          type="email"
-                          name="email"
+                          type="text"
+                          name="contacts"
                           placeholder="Email or phone"
                           required
                           className="mt-2 w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white placeholder:text-white/40 outline-none transition focus:border-white/40"
@@ -404,8 +439,14 @@ export default function Home() {
                       type="submit"
                       className="w-full rounded-full bg-[color:var(--accent)] px-6 py-3 text-sm font-semibold text-black sm:w-auto"
                     >
-                      Send Message
+                      {formStatus === "sending" ? "Sending..." : "Send Message"}
                     </button>
+                    {formStatus === "sent" && (
+                      <p className="text-sm text-emerald-300">Message sent.</p>
+                    )}
+                    {formStatus === "error" && (
+                      <p className="text-sm text-red-300">Failed to send. Try again.</p>
+                    )}
                   </form>
                 </div>
                 <div className="space-y-4 text-sm text-white/70">
