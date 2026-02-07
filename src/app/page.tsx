@@ -120,33 +120,33 @@ export default function Home() {
       </header>
 
       <main className="relative z-10">
-        <section className="relative overflow-hidden px-6 pt-20 md:pt-28">
+        <section className="relative overflow-hidden px-4 pt-16 sm:px-6 md:pt-28">
           <div className="mx-auto grid w-full max-w-6xl gap-12 lg:grid-cols-[1.2fr_0.8fr]">
             <div className="space-y-8">
-              <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs uppercase tracking-[0.2em] text-white/70">
+              <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-2 text-[10px] uppercase tracking-[0.2em] text-white/70 sm:px-4 sm:text-xs">
                 Personal Portfolio
                 <span className="h-1.5 w-1.5 rounded-full bg-[color:var(--accent)]"></span>
               </div>
               <div className="space-y-4">
-                <h1 className="text-display text-4xl text-white sm:text-5xl md:text-6xl">
+                <h1 className="text-display text-3xl text-white sm:text-5xl md:text-6xl">
                   Crafting premium digital products with precision and taste.
                 </h1>
-                <p className="max-w-xl text-base text-[color:var(--muted)] sm:text-lg">
+                <p className="max-w-xl text-sm text-[color:var(--muted)] sm:text-lg">
                   I&apos;m Md Mubassir Ahmed Siddique, a TypeScript-first frontend
                   engineer building fast, elegant, and conversion-focused web
                   experiences. I blend design systems with engineering rigor.
                 </p>
               </div>
-              <div className="flex flex-wrap gap-4">
+              <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-4">
                 <a
                   href="#projects"
-                  className="pulse-glow rounded-full bg-[color:var(--accent)] px-6 py-3 text-sm font-semibold text-black transition hover:brightness-110"
+                  className="pulse-glow w-full rounded-full bg-[color:var(--accent)] px-6 py-3 text-sm font-semibold text-black transition hover:brightness-110 sm:w-auto"
                 >
                   View Projects
                 </a>
                 <a
                   href="#contact"
-                  className="rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white/80 transition hover:border-white/60 hover:text-white"
+                  className="w-full rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white/80 transition hover:border-white/60 hover:text-white sm:w-auto"
                 >
                   Book a Call
                 </a>
@@ -191,24 +191,24 @@ export default function Home() {
                     </div>
                   ))}
                 </div>
-                <div className="float absolute -right-6 -top-8 h-20 w-20 rounded-3xl border border-white/10 bg-[color:var(--accent)]/80"></div>
-                <div className="float absolute -bottom-6 -left-8 h-16 w-16 rounded-full border border-white/10 bg-[color:var(--accent-2)]/80"></div>
+                <div className="float absolute -right-6 -top-8 hidden h-20 w-20 rounded-3xl border border-white/10 bg-[color:var(--accent)]/80 sm:block"></div>
+                <div className="float absolute -bottom-6 -left-8 hidden h-16 w-16 rounded-full border border-white/10 bg-[color:var(--accent-2)]/80 sm:block"></div>
               </div>
             </div>
           </div>
         </section>
 
-        <section id="about" className="px-6 py-20 md:py-24">
-          <div className="mx-auto grid w-full max-w-6xl gap-10 lg:grid-cols-[0.9fr_1.1fr]">
+        <section id="about" className="px-4 py-16 sm:px-6 md:py-24">
+          <div className="mx-auto grid w-full max-w-6xl gap-8 lg:grid-cols-[0.9fr_1.1fr]">
             <div className="space-y-4">
               <p className="text-display text-sm text-[color:var(--accent)]">
                 About
               </p>
-              <h2 className="text-display text-3xl text-white md:text-4xl">
+              <h2 className="text-display text-2xl text-white sm:text-3xl md:text-4xl">
                 Building clarity, speed, and confidence into every interface.
               </h2>
             </div>
-            <div className="space-y-6 text-base text-[color:var(--muted)]">
+            <div className="space-y-5 text-sm text-[color:var(--muted)] sm:text-base">
               <p>
                 I specialize in TypeScript and Next.js, designing resilient
                 systems that scale from MVP to global product. My focus is on
@@ -238,14 +238,14 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="skills" className="px-6 pb-20">
+        <section id="skills" className="px-4 pb-16 sm:px-6 md:pb-20">
           <div className="mx-auto w-full max-w-6xl">
-            <div className="mb-8 flex items-end justify-between">
+            <div className="mb-6 flex flex-col gap-3 sm:mb-8 sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <p className="text-display text-sm text-[color:var(--accent)]">
                   Skills
                 </p>
-                <h2 className="text-display text-3xl text-white md:text-4xl">
+                <h2 className="text-display text-2xl text-white sm:text-3xl md:text-4xl">
                   Full-stack capability with a frontend core.
                 </h2>
               </div>
@@ -253,7 +253,7 @@ export default function Home() {
                 Always shipping, always learning
               </span>
             </div>
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-3 sm:gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {skills.map((skill) => (
                 <div
                   key={skill}
@@ -266,14 +266,14 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="projects" className="px-6 pb-20">
+        <section id="projects" className="px-4 pb-16 sm:px-6 md:pb-20">
           <div className="mx-auto w-full max-w-6xl">
-            <div className="mb-10 flex items-center justify-between">
+            <div className="mb-6 flex flex-col gap-4 sm:mb-10 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <p className="text-display text-sm text-[color:var(--accent)]">
                   Projects
                 </p>
-                <h2 className="text-display text-3xl text-white md:text-4xl">
+                <h2 className="text-display text-2xl text-white sm:text-3xl md:text-4xl">
                   Signature work crafted for scale and elegance.
                 </h2>
               </div>
@@ -284,7 +284,7 @@ export default function Home() {
                 Request Case Study
               </a>
             </div>
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-5 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
               {projects.map((project) => (
                 <article
                   key={project.title}
@@ -312,17 +312,17 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="experience" className="px-6 pb-20">
+        <section id="experience" className="px-4 pb-16 sm:px-6 md:pb-20">
           <div className="mx-auto w-full max-w-6xl">
-            <div className="mb-8">
+            <div className="mb-6 sm:mb-8">
               <p className="text-display text-sm text-[color:var(--accent)]">
                 Experience
               </p>
-              <h2 className="text-display text-3xl text-white md:text-4xl">
+              <h2 className="text-display text-2xl text-white sm:text-3xl md:text-4xl">
                 Proven delivery across product, scale, and speed.
               </h2>
             </div>
-            <div className="grid gap-6">
+            <div className="grid gap-5 sm:gap-6">
               {experience.map((item) => (
                 <div
                   key={item.role}
@@ -346,7 +346,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="contact" className="px-6 pb-24">
+        <section id="contact" className="px-4 pb-20 sm:px-6 md:pb-24">
           <div className="mx-auto w-full max-w-6xl">
             <div className="glass rounded-[36px] p-8 md:p-12">
               <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr]">
@@ -354,14 +354,14 @@ export default function Home() {
                   <p className="text-display text-sm text-[color:var(--accent)]">
                     Contact
                   </p>
-                  <h2 className="text-display text-3xl text-white md:text-4xl">
+                  <h2 className="text-display text-2xl text-white sm:text-3xl md:text-4xl">
                     Let&apos;s build something unforgettable.
                   </h2>
-                  <p className="mt-4 text-base text-[color:var(--muted)]">
+                  <p className="mt-4 text-sm text-[color:var(--muted)] sm:text-base">
                     Share a project brief, timeline, or role. I respond quickly
                     and can jump into new engagements within 3 days.
                   </p>
-                  <form className="mt-8 grid gap-4">
+                  <form className="mt-6 grid gap-4 sm:mt-8">
                     <div className="grid gap-4 sm:grid-cols-2">
                       <label className="text-xs uppercase tracking-[0.2em] text-white/50">
                         Name
