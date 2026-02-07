@@ -31,10 +31,10 @@ export default function Home() {
       tags: ["TypeScript", "Edge", "Stripe"],
     },
     {
-      title: "Pulse Studio",
+      title: "News Portal",
       description:
-        "Creative portfolio builder with drag-and-drop layouts and live collaborative editing.",
-      tags: ["React", "WebSockets", "Figma API"],
+        "High-performance news platform with editorial workflows, category-based feeds, and SEO-focused delivery.",
+      tags: ["Next.js", "TypeScript", "SSR"],
     },
   ];
 
