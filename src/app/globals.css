@@ -75,6 +75,47 @@ body::before {
   animation: pulseGlow 4s ease-in-out infinite;
 }
 
+/* Fallback mode for older browsers that do not support modern color functions. */
+.legacy-browser body {
+  background: linear-gradient(180deg, #0b0f14 0%, #0f1722 100%);
+}
+
+.legacy-browser body::before {
+  display: none;
+}
+
+.legacy-browser .glass {
+  background: rgba(18, 26, 37, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: none;
+}
+
+.legacy-browser .ringed {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: none;
+}
+
+.legacy-browser .glow {
+  box-shadow: none;
+}
+
+.legacy-browser .float,
+.legacy-browser .pulse-glow {
+  animation: none;
+}
+
+.legacy-browser input,
+.legacy-browser textarea {
+  background: #0d141d;
+  color: #e6edf6;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.legacy-browser input::placeholder,
+.legacy-browser textarea::placeholder {
+  color: #8ea3bb;
+}
+
 @keyframes fadeUp {
   from {
     opacity: 0;
