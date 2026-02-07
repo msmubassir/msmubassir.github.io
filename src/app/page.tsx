@@ -124,7 +124,7 @@ export default function Home() {
           <div className="mx-auto grid w-full max-w-6xl gap-12 md:grid-cols-[1.2fr_0.8fr]">
             <div className="space-y-8">
               <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs uppercase tracking-[0.2em] text-white/70">
-                Advanced Portfolio
+                Personal Portfolio
                 <span className="h-1.5 w-1.5 rounded-full bg-[color:var(--accent)]"></span>
               </div>
               <div className="space-y-4">
