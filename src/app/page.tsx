@@ -362,7 +362,7 @@ export default function Home() {
                   </h2>
                   <p className="mt-4 text-base text-[color:var(--muted)]">
                     Share a project brief, timeline, or role. I respond quickly
-                    and can jump into new engagements within 2-4 weeks.
+                    and can jump into new engagements within 3 days.
                   </p>
                   <form className="mt-8 grid gap-4">
                     <div className="grid gap-4 sm:grid-cols-2">
