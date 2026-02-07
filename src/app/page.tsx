@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Home() {
   const [formStatus, setFormStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [showTopButton, setShowTopButton] = useState(false);
   const stats = [
     { label: "Years Building", value: "5+" },
     { label: "Projects Shipped", value: "30+" },
@@ -63,6 +64,16 @@ export default function Home() {
         "Strengthened fundamentals in HTML, CSS, JavaScript, and TypeScript through iterative practice.",
     },
   ];
+
+  useEffect(() => {
+    const onScroll = () => {
+      setShowTopButton(window.scrollY > 240);
+    };
+
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
     <div className="relative">
@@ -483,26 +494,29 @@ export default function Home() {
         </section>
       </main>
 
-      <a
-        href="#"
-        aria-label="Go to top"
-        title="Go to top"
-        className="fixed bottom-5 right-5 z-30 flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-black/70 text-white shadow-lg backdrop-blur transition hover:border-white/40 hover:bg-black/90"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2.2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="h-5 w-5"
+      {showTopButton && (
+        <button
+          type="button"
+          aria-label="Go to top"
+          title="Go to top"
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          className="fixed bottom-5 right-5 z-30 flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-black/70 text-white shadow-lg backdrop-blur transition hover:border-white/40 hover:bg-black/90"
         >
-          <path d="M12 19V5" />
-          <path d="m5 12 7-7 7 7" />
-        </svg>
-      </a>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="h-5 w-5"
+          >
+            <path d="M12 19V5" />
+            <path d="m5 12 7-7 7 7" />
+          </svg>
+        </button>
+      )}
 
       <footer className="border-t border-white/5 px-4 py-8 sm:px-6">
         <div className="mx-auto flex w-full max-w-6xl flex-col items-center justify-between gap-2 text-center text-xs uppercase tracking-[0.2em] text-white/50 md:flex-row md:gap-4 md:text-left">
