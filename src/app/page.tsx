@@ -40,25 +40,22 @@ export default function Home() {
 
   const experience = [
     {
-      role: "Senior Frontend Engineer",
-      company: "Nova Labs",
-      period: "2023 - Present",
+      role: "Independent Developer",
+      period: "2024 - Present",
       summary:
-        "Led the redesign of the flagship product, improving activation by 28% and reducing load time by 60%.",
+        "Building personal projects and client-ready demos with a focus on performance, clarity, and modern UI.",
     },
     {
-      role: "Product Engineer",
-      company: "Orbit Studio",
-      period: "2021 - 2023",
+      role: "Project-Based Learning",
+      period: "2022 - 2024",
       summary:
-        "Built a scalable design system and shipped 12 feature releases with cross-functional teams.",
+        "Completed hands-on builds across responsive UI, API integration, and deployment workflows.",
     },
     {
-      role: "Frontend Developer",
-      company: "Freelance",
-      period: "2019 - 2021",
+      role: "Frontend Practice",
+      period: "2020 - 2022",
       summary:
-        "Partnered with founders to deliver MVPs, from prototype to production-grade experiences.",
+        "Strengthened fundamentals in HTML, CSS, JavaScript, and TypeScript through iterative practice.",
     },
   ];
 
