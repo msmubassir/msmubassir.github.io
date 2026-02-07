@@ -278,12 +278,6 @@ export default function Home() {
                   Signature work crafted for scale and elegance.
                 </h2>
               </div>
-              <a
-                href="#contact"
-                className="hidden rounded-full border border-white/20 px-4 py-2 text-xs uppercase tracking-[0.2em] text-white/70 transition hover:border-white/60 md:inline-flex"
-              >
-                Request Case Study
-              </a>
             </div>
             <div className="grid gap-5 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
               {projects.map((project) => (
