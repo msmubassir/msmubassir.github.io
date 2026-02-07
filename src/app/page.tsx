@@ -78,11 +78,11 @@ export default function Home() {
   const scrollToSection = (sectionId: string) => {
     const section = document.getElementById(sectionId);
     if (!section) return;
-    const header = document.querySelector("header");
-    const headerHeight = header instanceof HTMLElement ? header.offsetHeight : 0;
-    const extraGap = 12;
-    const top = section.getBoundingClientRect().top + window.scrollY - headerHeight - extraGap;
-    window.scrollTo({ top: Math.max(top, 0), behavior: "smooth" });
+    section.scrollIntoView({ behavior: "smooth", block: "start" });
+    const openMenu = document.querySelector("details[open]");
+    if (openMenu instanceof HTMLDetailsElement) {
+      openMenu.open = false;
+    }
   };
 
   return (
@@ -226,7 +226,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="about" className="px-4 py-16 sm:px-6 md:py-24">
+        <section id="about" className="scroll-mt-24 px-4 py-16 sm:px-6 md:scroll-mt-28 md:py-24">
           <div className="mx-auto grid w-full max-w-6xl gap-8 lg:grid-cols-[0.9fr_1.1fr]">
             <div className="space-y-4">
               <p className="text-display text-sm text-[color:var(--accent)]">
@@ -265,7 +265,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="skills" className="px-4 pb-16 sm:px-6 md:pb-20">
+        <section id="skills" className="scroll-mt-24 px-4 pb-16 sm:px-6 md:scroll-mt-28 md:pb-20">
           <div className="mx-auto w-full max-w-6xl">
             <div className="mb-6 flex flex-col gap-3 sm:mb-8 sm:flex-row sm:items-end sm:justify-between">
               <div>
@@ -293,7 +293,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="projects" className="px-4 pb-16 sm:px-6 md:pb-20">
+        <section id="projects" className="scroll-mt-24 px-4 pb-16 sm:px-6 md:scroll-mt-28 md:pb-20">
           <div className="mx-auto w-full max-w-6xl">
             <div className="mb-6 flex flex-col gap-4 sm:mb-10 sm:flex-row sm:items-center sm:justify-between">
               <div>
@@ -333,7 +333,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="experience" className="px-4 pb-16 sm:px-6 md:pb-20">
+        <section id="experience" className="scroll-mt-24 px-4 pb-16 sm:px-6 md:scroll-mt-28 md:pb-20">
           <div className="mx-auto w-full max-w-6xl">
             <div className="mb-6 sm:mb-8">
               <p className="text-display text-sm text-[color:var(--accent)]">
@@ -366,7 +366,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="contact" className="px-4 pb-20 sm:px-6 md:pb-24">
+        <section id="contact" className="scroll-mt-24 px-4 pb-20 sm:px-6 md:scroll-mt-28 md:pb-24">
           <div className="mx-auto w-full max-w-6xl">
             <div className="glass rounded-[36px] p-8 md:p-12">
               <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr]">
