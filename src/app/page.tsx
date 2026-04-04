@@ -595,10 +595,10 @@ export default function Home() {
                   </div>
                   <div className="mt-6 flex flex-wrap gap-4">
                     <a
-                      href="mailto:masmubassir@gmail.com"
+                      href="mailto:ms.mubassir@proton.me"
                       className="mx-auto rounded-full bg-[color:var(--accent)] px-6 py-3 text-sm font-semibold text-black"
                     >
-                      masmubassir@gmail.com
+                      ms.mubassir@proton.me
                     </a>
                   </div>
                 </div>
