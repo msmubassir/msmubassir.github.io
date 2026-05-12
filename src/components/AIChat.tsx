@@ -55,24 +55,46 @@ export default function AIChat() {
     setIsLoading(true);
 
     try {
-      // Use CORS proxy to bypass cross-origin restrictions
+      // Try multiple CORS proxies
       const apiUrl = "https://opencode.ai/zen/v1/chat/completions";
-      const response = await fetch(`https://corsproxy.io/?${encodeURIComponent(apiUrl)}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Bearer sk-79nH8aoFgSuDNdVkiT4bNlYV82Mv1ki2iuPfIfY0d5aLnlLC5EKuLLoFCQDJPTDp",
-        },
-        body: JSON.stringify({
-          model: "minimax-m2.5-free",
-          messages: [
-            { role: "system", content: SYSTEM_PROMPT },
-            ...messages.map((m) => ({ role: m.role, content: m.content })),
-            { role: "user", content: input.trim() },
-          ],
-          max_tokens: 500,
-        }),
-      });
+      const payload = {
+        model: "minimax-m2.5-free",
+        messages: [
+          { role: "system", content: SYSTEM_PROMPT },
+          ...messages.map((m) => ({ role: m.role, content: m.content })),
+          { role: "user", content: input.trim() },
+        ],
+        max_tokens: 500,
+      };
+
+      const proxyUrls = [
+        `https://corsproxy.io/?${encodeURIComponent(apiUrl)}`,
+        `https://api.allorigins.win/raw?url=${encodeURIComponent(apiUrl)}`,
+      ];
+
+      let response = null;
+      let lastError = null;
+
+      for (const proxyUrl of proxyUrls) {
+        try {
+          response = await fetch(proxyUrl, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": "Bearer sk-79nH8aoFgSuDNdVkiT4bNlYV82Mv1ki2iuPfIfY0d5aLnlLC5EKuLLoFCQDJPTDp",
+            },
+            body: JSON.stringify(payload),
+          });
+          if (response.ok || response.status === 200) break;
+        } catch (e) {
+          lastError = e;
+          continue;
+        }
+      }
+
+      if (!response || (!response.ok && response.status !== 200)) {
+        throw lastError || new Error("All proxies failed");
+      }
 
       if (!response.ok) {
         const errorText = await response.text();
