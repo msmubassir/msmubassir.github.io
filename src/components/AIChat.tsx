@@ -61,7 +61,7 @@ export default function AIChat() {
       let response;
       if (isVercel) {
         // Vercel: use local API route (server-side)
-        response = await fetch("/api/chat", {
+        response = await fetch("/api/chat/", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
