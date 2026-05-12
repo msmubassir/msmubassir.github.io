@@ -55,29 +55,32 @@ export default function AIChat() {
     setIsLoading(true);
 
     try {
-      // Use local API route to avoid CORS issues
-      const response = await fetch("/api/chat", {
+      // Direct API call to opencode.ai
+      const response = await fetch("https://opencode.ai/zen/v1/chat/completions", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Authorization": "Bearer sk-79nH8aoFgSuDNdVkiT4bNlYV82Mv1ki2iuPfIfY0d5aLnlLC5EKuLLoFCQDJPTDp",
         },
         body: JSON.stringify({
+          model: "minimax-m2.5-free",
           messages: [
             { role: "system", content: SYSTEM_PROMPT },
             ...messages.map((m) => ({ role: m.role, content: m.content })),
             { role: "user", content: input.trim() },
           ],
+          max_tokens: 500,
         }),
       });
 
       if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        console.error("API Error:", response.status, errorData);
+        const errorText = await response.text();
+        console.error("API Error:", response.status, errorText);
         throw new Error(`API error: ${response.status}`);
       }
 
       const data = await response.json();
-      let content = data.content;
+      let content = data.choices?.[0]?.message?.content;
 
       // Handle null content (refusal or empty response)
       if (!content) {
@@ -93,13 +96,13 @@ export default function AIChat() {
       console.error("Chat error:", error);
       let errorMsg = "I'm having trouble responding right now.";
       if (error instanceof TypeError && error.message.includes("Failed to fetch")) {
-        errorMsg = "Unable to connect. Please check your connection and try again.";
+        errorMsg = "Unable to connect. Check your connection or try again later.";
       }
       setMessages((prev) => [
         ...prev,
         {
           role: "assistant",
-          content: errorMsg + " You can also email ms.mubassir@proton.me directly.",
+          content: errorMsg + " You can email ms.mubassir@proton.me directly.",
         },
       ]);
     } finally {
