@@ -108,7 +108,7 @@ export default function AIChat() {
       }
 
       const data = await response.json();
-      const content = isVercel ? data.content : data.choices?.[0]?.message?.content;
+      let content = isVercel ? data.content : data.choices?.[0]?.message?.content;
 
       // Handle null content (refusal or empty response)
       if (!content) {
