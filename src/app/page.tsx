@@ -2,47 +2,57 @@
 
 import { useEffect, useState } from "react";
 
+import AIChat from "@/components/AIChat";
+
 export default function Home() {
   const [formStatus, setFormStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [showTopButton, setShowTopButton] = useState(false);
-  const [reduceMotion, setReduceMotion] = useState(false);
-  const [disableScrollEnhancements, setDisableScrollEnhancements] = useState(false);
-  const [isLegacyBrowser, setIsLegacyBrowser] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    const onScroll = () => setShowTopButton(window.scrollY > 400);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const scrollToSection = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+      setIsMenuOpen(false);
+    }
+  };
+
   const stats = [
-    { label: "Years Building", value: "5+" },
-    { label: "Projects Shipped", value: "30+" },
-    { label: "Avg. Lighthouse", value: "98" },
+    { value: "5+", label: "Years" },
+    { value: "30+", label: "Projects" },
+    { value: "98", label: "Lighthouse" },
   ];
 
   const skills = [
-    "TypeScript",
-    "Next.js",
-    "React",
-    "Node.js",
-    "Tailwind CSS",
-    "Framer Motion",
-    "PostgreSQL",
-    "REST APIs",
-    "Testing Library",
+    "TypeScript", "Next.js", "React", "Node.js", "Tailwind CSS",
+    "Framer Motion", "PostgreSQL", "REST APIs", "Testing Library",
   ];
 
   const projects = [
     {
       title: "Atlas Dashboard",
-      description:
-        "A multi-tenant analytics suite with real-time insights, role-based access, and a precision-crafted UI.",
+      description: "Multi-tenant analytics suite with real-time insights, role-based access, and precision-crafted UI.",
       tags: ["Next.js", "tRPC", "PostgreSQL"],
     },
     {
       title: "Lumen Commerce",
-      description:
-        "Headless storefront focused on speed and conversion with edge caching and dynamic merchandising.",
+      description: "Headless storefront focused on speed and conversion with edge caching and dynamic merchandising.",
       tags: ["TypeScript", "Edge", "Stripe"],
     },
     {
       title: "News Portal",
-      description:
-        "High-performance news platform with editorial workflows, category-based feeds, and SEO-focused delivery.",
+      description: "High-performance news platform with editorial workflows, category-based feeds, and SEO-focused delivery.",
       tags: ["Next.js", "TypeScript", "SSR"],
     },
   ];
@@ -51,340 +61,165 @@ export default function Home() {
     {
       role: "Independent Developer",
       period: "2024 - Present",
-      summary:
-        "Building personal projects and client-ready demos with a focus on performance, clarity, and modern UI.",
+      summary: "Building personal projects and client-ready demos with focus on performance and modern UI.",
     },
     {
       role: "Project-Based Learning",
       period: "2022 - 2024",
-      summary:
-        "Completed hands-on builds across responsive UI, API integration, and deployment workflows.",
+      summary: "Completed hands-on builds across responsive UI, API integration, and deployment workflows.",
     },
     {
       role: "Frontend Practice",
       period: "2020 - 2022",
-      summary:
-        "Strengthened fundamentals in HTML, CSS, JavaScript, and TypeScript through iterative practice.",
+      summary: "Strengthened fundamentals in HTML, CSS, JavaScript, and TypeScript.",
     },
   ];
 
-  useEffect(() => {
-    if (typeof window === "undefined" || !window.matchMedia) return;
-    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const update = () => setReduceMotion(media.matches);
-    update();
-    if (typeof media.addEventListener === "function") {
-      media.addEventListener("change", update);
-      return () => media.removeEventListener("change", update);
-    }
-    media.addListener(update);
-    return () => media.removeListener(update);
-  }, []);
-
-  useEffect(() => {
-    if (typeof document === "undefined" || typeof window === "undefined") return;
-    const root = document.documentElement;
-    const legacyByClass = root.classList.contains("legacy-browser");
-    const isLegacy = legacyByClass || root.classList.contains("no-smooth-scroll");
-    setIsLegacyBrowser(legacyByClass);
-    setDisableScrollEnhancements(isLegacy);
-  }, []);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    if (disableScrollEnhancements) {
-      setShowTopButton(false);
-      return;
-    }
-    const raf =
-      window.requestAnimationFrame ||
-      ((callback: FrameRequestCallback) => window.setTimeout(() => callback(Date.now()), 16));
-    let ticking = false;
-    const onScroll = () => {
-      if (ticking) return;
-      ticking = true;
-      raf(() => {
-        setShowTopButton(window.pageYOffset > 240);
-        ticking = false;
-      });
-    };
-
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [disableScrollEnhancements]);
-
-  const canUseSmoothScroll = () =>
-    typeof document !== "undefined" && "scrollBehavior" in document.documentElement.style;
-
-  const getScrollTop = () => {
-    if (typeof window === "undefined" || typeof document === "undefined") return 0;
-    return (
-      window.pageYOffset ||
-      document.documentElement.scrollTop ||
-      document.body.scrollTop ||
-      0
-    );
-  };
-
-  const forceScrollTop = (top: number) => {
-    const safeTop = Math.max(0, Math.floor(top));
-    try {
-      window.scrollTo(0, safeTop);
-    } catch {
-      // Ignore and use legacy assignments below.
-    }
-    if (typeof document !== "undefined") {
-      document.documentElement.scrollTop = safeTop;
-      document.body.scrollTop = safeTop;
-    }
-  };
-
-  const scrollToY = (top: number) => {
-    const safeTop = Math.max(0, Math.floor(top));
-    if (disableScrollEnhancements || reduceMotion || !canUseSmoothScroll()) {
-      forceScrollTop(safeTop);
-      return;
-    }
-    try {
-      window.scrollTo({ top: safeTop, behavior: "smooth" });
-    } catch {
-      forceScrollTop(safeTop);
-    }
-  };
-
-  const scrollToTop = () => {
-    scrollToY(0);
-  };
-
-  const scrollToSection = (sectionId: string) => {
-    const section = document.getElementById(sectionId);
-    if (!section) return;
-    const offset = disableScrollEnhancements ? 0 : 72;
-    const targetY = section.getBoundingClientRect().top + getScrollTop() - offset;
-    scrollToY(targetY);
-    if (Math.abs(getScrollTop() - Math.max(targetY, 0)) > 8 && "scrollIntoView" in section) {
-      try {
-        section.scrollIntoView(true);
-      } catch {
-        // Last resort already attempted with scrollToY.
-      }
-    }
-    const openMenu = document.querySelector("details[open]");
-    if (openMenu instanceof HTMLDetailsElement) {
-      openMenu.open = false;
-    }
-  };
+  const navItems = ["about", "skills", "projects", "experience", "contact"];
 
   return (
-    <div className="site-shell relative">
-      <header className="sticky top-0 z-20 border-b border-white/5 bg-black/30">
-        <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-5">
-          <span className="text-display text-lg text-white/90">
-            Md Mubassir Ahmed Siddique
-          </span>
-          <nav className="hidden items-center gap-6 text-sm text-white/70 md:flex">
-            {[
-              "about",
-              "skills",
-              "projects",
-              "experience",
-              "contact",
-            ].map((item) => (
+    <div className="min-h-screen">
+      {/* Header */}
+      <header className="fixed top-0 left-0 right-0 z-50 bg-[#09090b]/80 backdrop-blur-xl border-b border-zinc-800/50">
+        <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
+          <span className="text-lg font-semibold tracking-tight">Mubassir</span>
+
+          <nav className="hidden md:flex items-center gap-8">
+            {navItems.map((item) => (
               <button
                 key={item}
-                type="button"
                 onClick={() => scrollToSection(item)}
-                className="cursor-pointer bg-transparent transition hover:text-white"
+                className="text-sm text-zinc-400 hover:text-white transition-colors capitalize"
               >
                 {item}
               </button>
             ))}
           </nav>
-          <div className="flex items-center gap-3">
+
+          <div className="flex items-center gap-4">
             <button
-              type="button"
               onClick={() => scrollToSection("contact")}
-              className="hidden cursor-pointer rounded-full border border-white/20 px-4 py-2 text-sm text-white/80 transition hover:border-white/60 hover:text-white md:inline-flex"
+              className="hidden md:block btn-primary text-sm"
             >
-              Let&apos;s Talk
+              Get in touch
             </button>
-            <details className="relative md:hidden">
-              <summary className="list-none rounded-full border border-white/20 px-4 py-2 text-xs uppercase tracking-[0.2em] text-white/70 transition hover:border-white/60 hover:text-white">
-                Menu
-              </summary>
-              <div className="absolute right-0 mt-3 w-52 rounded-2xl border border-white/10 bg-black/90 p-3 text-sm text-white/90 shadow-2xl">
-                {[
-                  "about",
-                  "skills",
-                  "projects",
-                  "experience",
-                  "contact",
-                ].map((item) => (
-                  <button
-                    key={item}
-                    type="button"
-                    onClick={() => scrollToSection(item)}
-                    className="block w-full cursor-pointer rounded-lg bg-transparent px-3 py-2 text-left transition hover:bg-white/10"
-                  >
-                    {item}
-                  </button>
-                ))}
-              </div>
-            </details>
+
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="md:hidden w-10 h-10 flex items-center justify-center text-zinc-400"
+            >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                {isMenuOpen ? (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                ) : (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                )}
+              </svg>
+            </button>
           </div>
         </div>
+
+        {/* Mobile menu */}
+        {isMenuOpen && (
+          <div className="md:hidden bg-[#18181b] border-t border-zinc-800">
+            <div className="px-6 py-4 space-y-3">
+              {navItems.map((item) => (
+                <button
+                  key={item}
+                  onClick={() => scrollToSection(item)}
+                  className="block w-full text-left text-zinc-400 hover:text-white py-2 capitalize"
+                >
+                  {item}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
       </header>
 
-      {isLegacyBrowser && (
-        <div className="mx-auto mt-4 w-full max-w-6xl px-4 sm:px-6">
-          <p className="rounded-2xl border border-amber-300/35 bg-amber-300/10 px-4 py-3 text-xs text-amber-100 sm:text-sm">
-            Your browser or webview is outdated. Update your browser/webview software for smoother scrolling and full visual quality.
-          </p>
-        </div>
-      )}
-
-      <main className="relative z-10">
-        <section className="relative overflow-hidden px-4 pt-16 sm:px-6 md:pt-28">
-          <div className="mx-auto grid w-full max-w-6xl gap-12 lg:grid-cols-[1.2fr_0.8fr]">
-            <div className="space-y-8">
-              <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-2 text-[10px] uppercase tracking-[0.2em] text-white/70 sm:px-4 sm:text-xs">
-                Personal Portfolio
-                <span className="h-1.5 w-1.5 rounded-full bg-[color:var(--accent)]"></span>
-              </div>
-              <div className="space-y-4">
-                <h1 className="text-display text-3xl text-white sm:text-5xl md:text-6xl">
-                  Crafting premium digital products with precision and taste.
-                </h1>
-                <p className="max-w-xl text-sm text-[color:var(--muted)] sm:text-lg">
-                  I&apos;m Md Mubassir Ahmed Siddique, a TypeScript-first frontend
-                  engineer building fast, elegant, and conversion-focused web
-                  experiences. I blend design systems with engineering rigor.
-                </p>
-              </div>
-              <div className="flex flex-row flex-wrap gap-4">
-                <button
-                  type="button"
-                  onClick={() => scrollToSection("projects")}
-                  className="pulse-glow cursor-pointer rounded-full bg-[color:var(--accent)] px-6 py-3 text-sm font-semibold text-black transition hover:brightness-110"
-                >
-                  View Projects
-                </button>
-                <button
-                  type="button"
-                  onClick={() => scrollToSection("contact")}
-                  className="cursor-pointer rounded-full border border-white/20 px-6 py-3 text-sm font-semibold text-white/80 transition hover:border-white/60 hover:text-white"
-                >
-                  Book a Call
-                </button>
-              </div>
-              <div className="flex flex-wrap gap-4 sm:gap-6">
-                {stats.map((stat) => (
-                  <div
-                    key={stat.label}
-                    className="glass w-full rounded-2xl px-5 py-4 sm:w-auto"
-                  >
-                    <div className="text-2xl font-semibold text-white">
-                      {stat.value}
-                    </div>
-                    <div className="text-xs uppercase tracking-[0.2em] text-white/50">
-                      {stat.label}
-                    </div>
-                  </div>
-                ))}
-              </div>
+      <main className="pt-20">
+        {/* Hero */}
+        <section className="min-h-[90vh] flex items-center px-6">
+          <div className="max-w-5xl mx-auto w-full">
+            <div className={`${mounted ? "animate-slide-up" : "opacity-0"}`}>
+              <div className="tag mb-6">Available for projects</div>
             </div>
-            <div className="relative flex items-center justify-center">
-              <div className="glass glow relative h-[360px] w-full max-w-sm rounded-[32px] p-6">
-                <div className="flex items-center justify-between text-xs uppercase tracking-[0.2em] text-white/60">
-                  Portfolio System
-                  <span className="rounded-full border border-white/20 px-2 py-1 text-[10px]">
-                    Live
-                  </span>
+
+            <h1 className={`text-4xl sm:text-5xl md:text-7xl font-bold leading-tight mb-6 ${mounted ? "animate-slide-up stagger-1" : "opacity-0"}`}>
+              <span className="gradient-text">Md Mubassir Ahmed</span>
+              <br />
+              <span className="gradient-accent">Siddique</span>
+            </h1>
+
+            <p className={`text-lg sm:text-xl text-zinc-400 max-w-2xl mb-10 ${mounted ? "animate-slide-up stagger-2" : "opacity-0"}`}>
+              TypeScript-first frontend engineer building fast, elegant, and conversion-focused web experiences.
+            </p>
+
+            <div className={`flex flex-wrap gap-4 mb-16 ${mounted ? "animate-slide-up stagger-3" : "opacity-0"}`}>
+              <button
+                onClick={() => scrollToSection("projects")}
+                className="btn-primary"
+              >
+                View Work
+                <svg className="w-4 h-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </button>
+              <button
+                onClick={() => scrollToSection("contact")}
+                className="btn-secondary"
+              >
+                Contact Me
+              </button>
+            </div>
+
+            <div className={`flex flex-wrap gap-8 ${mounted ? "animate-slide-up stagger-4" : "opacity-0"}`}>
+              {stats.map((stat) => (
+                <div key={stat.label}>
+                  <div className="text-3xl font-bold">{stat.value}</div>
+                  <div className="text-sm text-zinc-500">{stat.label}</div>
                 </div>
-                <div className="mt-6 space-y-4">
-                  {[
-                    "Design System",
-                    "Performance Engineering",
-                    "Motion & Micro-UX",
-                    "Product Strategy",
-                  ].map((item) => (
-                    <div
-                      key={item}
-                      className="flex items-center justify-between rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white/80"
-                    >
-                      {item}
-                      <span className="h-2 w-2 rounded-full bg-[color:var(--accent-2)]"></span>
-                    </div>
-                  ))}
-                </div>
-                <div className="float absolute -right-6 -top-8 hidden h-20 w-20 rounded-3xl border border-white/10 bg-[color:var(--accent)]/80 sm:block"></div>
-                <div className="float absolute -bottom-6 -left-8 hidden h-16 w-16 rounded-full border border-white/10 bg-[color:var(--accent-2)]/80 sm:block"></div>
-              </div>
+              ))}
             </div>
           </div>
         </section>
 
-        <section id="about" className="scroll-mt-24 px-4 py-16 sm:px-6 md:scroll-mt-28 md:py-24">
-          <div className="mx-auto grid w-full max-w-6xl gap-8 lg:grid-cols-[0.9fr_1.1fr]">
-            <div className="space-y-4">
-              <p className="text-display text-sm text-[color:var(--accent)]">
-                About
-              </p>
-              <h2 className="text-display text-2xl text-white sm:text-3xl md:text-4xl">
-                Building clarity, speed, and confidence into every interface.
-              </h2>
-            </div>
-            <div className="space-y-5 text-sm text-[color:var(--muted)] sm:text-base">
-              <p>
-                I focus on TypeScript and Next.js, building clean, responsive
-                interfaces with strong performance and accessibility.
-              </p>
-              <p>
-                I am currently available for new opportunities and keep my
-                skills sharp through real-world projects, product prototypes,
-                and continuous learning.
-              </p>
-              <div className="flex flex-wrap gap-4">
-                {[
-                  "Design Systems",
-                  "Frontend Architecture",
-                  "Product Strategy",
-                  "UX Engineering",
-                ].map((item) => (
-                  <span
-                    key={item}
-                    className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs uppercase tracking-[0.2em] text-white/70"
-                  >
-                    {item}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section id="skills" className="scroll-mt-24 px-4 pb-16 sm:px-6 md:scroll-mt-28 md:pb-20">
-          <div className="mx-auto w-full max-w-6xl">
-            <div className="mb-6 flex flex-col gap-3 sm:mb-8 sm:flex-row sm:items-end sm:justify-between">
+        {/* About */}
+        <section id="about" className="py-24 px-6">
+          <div className="max-w-5xl mx-auto">
+            <div className="grid md:grid-cols-2 gap-12 lg:gap-20">
               <div>
-                <p className="text-display text-sm text-[color:var(--accent)]">
-                  Skills
-                </p>
-                <h2 className="text-display text-2xl text-white sm:text-3xl md:text-4xl">
-                  Full-stack capability with a frontend core.
+                <p className="section-title">About</p>
+                <h2 className="section-heading mb-6">
+                  Building clarity and speed into every interface.
                 </h2>
               </div>
-              <span className="hidden text-sm text-white/50 md:block">
-                Always shipping, always learning
-              </span>
+              <div className="space-y-4 text-zinc-400">
+                <p>
+                  I focus on TypeScript and Next.js, building clean, responsive interfaces with strong performance and accessibility.
+                </p>
+                <p>
+                  Currently available for new opportunities and keeping skills sharp through real-world projects.
+                </p>
+                <div className="flex flex-wrap gap-2 pt-4">
+                  {["Design Systems", "Frontend Architecture", "UX Engineering"].map((item) => (
+                    <span key={item} className="tag">{item}</span>
+                  ))}
+                </div>
+              </div>
             </div>
-            <div className="grid gap-3 grid-cols-2 lg:grid-cols-3">
+          </div>
+        </section>
+
+        {/* Skills */}
+        <section id="skills" className="py-24 px-6 bg-[#18181b]/50">
+          <div className="max-w-5xl mx-auto">
+            <p className="section-title">Skills</p>
+            <h2 className="section-heading mb-12">Full-stack capability with a frontend core.</h2>
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
               {skills.map((skill) => (
-                <div
-                  key={skill}
-                  className="ringed rounded-2xl bg-black/20 px-5 py-4 text-sm text-white/80 transition hover:border-white/30 hover:text-white"
-                >
+                <div key={skill} className="card text-center hover:bg-zinc-800/50">
                   {skill}
                 </div>
               ))}
@@ -392,38 +227,20 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="projects" className="scroll-mt-24 px-4 pb-16 sm:px-6 md:scroll-mt-28 md:pb-20">
-          <div className="mx-auto w-full max-w-6xl">
-            <div className="mb-6 flex flex-col gap-4 sm:mb-10 sm:flex-row sm:items-center sm:justify-between">
-              <div>
-                <p className="text-display text-sm text-[color:var(--accent)]">
-                  Projects
-                </p>
-                <h2 className="text-display text-2xl text-white sm:text-3xl md:text-4xl">
-                  Signature work crafted for scale and elegance.
-                </h2>
-              </div>
-            </div>
-            <div className="grid gap-5 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {/* Projects */}
+        <section id="projects" className="py-24 px-6">
+          <div className="max-w-5xl mx-auto">
+            <p className="section-title">Projects</p>
+            <h2 className="section-heading mb-12">Selected work.</h2>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {projects.map((project) => (
-                <article
-                  key={project.title}
-                  className="glass rounded-3xl p-6 transition hover:-translate-y-1 hover:border-white/30"
-                >
-                  <h3 className="text-xl font-semibold text-white">
-                    {project.title}
-                  </h3>
-                  <p className="mt-3 text-sm text-[color:var(--muted)]">
-                    {project.description}
-                  </p>
-                  <div className="mt-6 flex flex-wrap gap-2">
+                <article key={project.title} className="card group">
+                  <h3 className="text-lg font-semibold mb-2">{project.title}</h3>
+                  <p className="text-sm text-zinc-400 mb-4">{project.description}</p>
+                  <div className="flex flex-wrap gap-2">
                     {project.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] uppercase tracking-[0.2em] text-white/70"
-                      >
-                        {tag}
-                      </span>
+                      <span key={tag} className="tag text-xs">{tag}</span>
                     ))}
                   </div>
                 </article>
@@ -432,209 +249,133 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="experience" className="scroll-mt-24 px-4 pb-16 sm:px-6 md:scroll-mt-28 md:pb-20">
-          <div className="mx-auto w-full max-w-6xl">
-            <div className="mb-6 sm:mb-8">
-              <p className="text-display text-sm text-[color:var(--accent)]">
-                Experience
-              </p>
-              <h2 className="text-display text-2xl text-white sm:text-3xl md:text-4xl">
-                Proven delivery across product, scale, and speed.
-              </h2>
-            </div>
-            <div className="grid gap-5 sm:gap-6">
+        {/* Experience */}
+        <section id="experience" className="py-24 px-6 bg-[#18181b]/50">
+          <div className="max-w-5xl mx-auto">
+            <p className="section-title">Experience</p>
+            <h2 className="section-heading mb-12">Proven delivery.</h2>
+
+            <div className="space-y-4">
               {experience.map((item) => (
-                <div
-                  key={item.role}
-                  className="glass rounded-3xl p-6 lg:flex lg:items-center lg:justify-between"
-                >
+                <div key={item.role} className="card flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                   <div>
-                    <h3 className="text-lg font-semibold text-white">
-                      {item.role}
-                    </h3>
+                    <h3 className="font-semibold">{item.role}</h3>
+                    <span className="text-sm text-zinc-500">{item.period}</span>
                   </div>
-                  <p className="mt-4 max-w-xl text-sm text-[color:var(--muted)] lg:mt-0">
-                    {item.summary}
-                  </p>
-                  <span className="mt-4 text-xs uppercase tracking-[0.2em] text-white/50 lg:mt-0">
-                    {item.period}
-                  </span>
+                  <p className="text-sm text-zinc-400 max-w-md">{item.summary}</p>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        <section id="contact" className="scroll-mt-24 px-4 pb-20 sm:px-6 md:scroll-mt-28 md:pb-24">
-          <div className="mx-auto w-full max-w-6xl">
-            <div className="glass rounded-[36px] p-8 md:p-12">
-              <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr]">
-                <div>
-                  <p className="text-display text-sm text-[color:var(--accent)]">
-                    Contact
-                  </p>
-                  <h2 className="text-display text-2xl text-white sm:text-3xl md:text-4xl">
-                    Let&apos;s build something unforgettable.
-                  </h2>
-                  <p className="mt-4 text-sm text-[color:var(--muted)] sm:text-base">
-                    Share a project brief, timeline, or role. I respond quickly
-                    and can jump into new engagements within 3 days.
-                  </p>
-                  <form
-                    className="mt-6 grid gap-4 sm:mt-8"
-                    onSubmit={async (event) => {
-                      event.preventDefault();
-                      setFormStatus("sending");
-                      const form = event.currentTarget;
-                      const data = new FormData(form);
+        {/* Contact */}
+        <section id="contact" className="py-24 px-6">
+          <div className="max-w-5xl mx-auto">
+            <div className="max-w-2xl">
+              <p className="section-title">Contact</p>
+              <h2 className="section-heading mb-4">Let's work together.</h2>
+              <p className="text-zinc-400 mb-10">
+                Share a project brief or timeline. I respond quickly and can start within 3 days.
+              </p>
 
-                      if (data.get("website")) {
-                        setFormStatus("sent");
-                        form.reset();
-                        return;
-                      }
+              <form
+                onSubmit={async (e) => {
+                  e.preventDefault();
+                  setFormStatus("sending");
+                  const form = e.currentTarget;
+                  const data = new FormData(form);
 
-                      const payload = {
-                        name: String(data.get("name") || ""),
-                        contacts: String(data.get("contacts") || ""),
-                        message: String(data.get("message") || ""),
-                      };
+                  if (data.get("website")) {
+                    setFormStatus("sent");
+                    form.reset();
+                    return;
+                  }
 
-                      try {
-                        const res = await fetch("https://msnrtgapi2.vercel.app/receive", {
-                          method: "POST",
-                          headers: { "Content-Type": "application/json" },
-                          body: JSON.stringify(payload),
-                        });
+                  try {
+                    await fetch("https://msnrtgapi2.vercel.app/receive", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({
+                        name: data.get("name"),
+                        contacts: data.get("contacts"),
+                        message: data.get("message"),
+                      }),
+                    });
+                    setFormStatus("sent");
+                    form.reset();
+                  } catch {
+                    setFormStatus("error");
+                  }
+                }}
+                className="space-y-4"
+              >
+                <input type="text" name="website" className="hidden" tabIndex={-1} autoComplete="off" />
 
-                        if (!res.ok) throw new Error("Request failed");
-                        setFormStatus("sent");
-                        form.reset();
-                      } catch {
-                        setFormStatus("error");
-                      }
-                    }}
-                  >
-                    <input
-                      type="text"
-                      name="website"
-                      tabIndex={-1}
-                      autoComplete="off"
-                      className="hidden"
-                    />
-                    <div className="grid gap-4 sm:grid-cols-2">
-                      <label className="text-xs uppercase tracking-[0.2em] text-white/50">
-                        Name
-                        <input
-                          type="text"
-                          name="name"
-                          placeholder="Your name"
-                          required
-                          className="mt-2 w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white placeholder:text-white/40 outline-none transition focus:border-white/40"
-                        />
-                      </label>
-                      <label className="text-xs uppercase tracking-[0.2em] text-white/50">
-                        Contact
-                        <input
-                          type="text"
-                          name="contacts"
-                          placeholder="Email or phone"
-                          required
-                          className="mt-2 w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white placeholder:text-white/40 outline-none transition focus:border-white/40"
-                        />
-                      </label>
-                    </div>
-                    <label className="text-xs uppercase tracking-[0.2em] text-white/50">
-                      Message
-                      <textarea
-                        name="message"
-                        rows={4}
-                        placeholder="Tell me about your project..."
-                        required
-                        className="mt-2 w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm text-white placeholder:text-white/40 outline-none transition focus:border-white/40"
-                      ></textarea>
-                    </label>
-                    <button
-                      type="submit"
-                      className="w-full rounded-full bg-[color:var(--accent)] px-6 py-3 text-sm font-semibold text-black sm:w-auto"
-                    >
-                      {formStatus === "sending" ? "Sending..." : "Send Message"}
-                    </button>
-                    {formStatus === "sent" && (
-                      <p className="text-sm text-emerald-300">Message sent.</p>
-                    )}
-                    {formStatus === "error" && (
-                      <p className="text-sm text-red-300">Failed to send. Try again.</p>
-                    )}
-                  </form>
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <input
+                    type="text"
+                    name="name"
+                    placeholder="Name"
+                    required
+                    className="input-field"
+                  />
+                  <input
+                    type="text"
+                    name="contacts"
+                    placeholder="Email or phone"
+                    required
+                    className="input-field"
+                  />
                 </div>
-                <div className="space-y-4 text-sm text-white/70">
-                  <div className="ringed rounded-2xl bg-black/30 p-4">
-                    <div className="text-xs uppercase tracking-[0.2em] text-white/50">
-                      Availability
-                    </div>
-                    <div className="mt-2 text-base text-white">
-                      Open for selective projects
-                    </div>
-                  </div>
-                  <div className="ringed rounded-2xl bg-black/30 p-4">
-                    <div className="text-xs uppercase tracking-[0.2em] text-white/50">
-                      Focus
-                    </div>
-                    <div className="mt-2 text-base text-white">
-                      Premium web products and Telegram bot
-                    </div>
-                  </div>
-                  <div className="ringed rounded-2xl bg-black/30 p-4">
-                    <div className="text-xs uppercase tracking-[0.2em] text-white/50">
-                      Location
-                    </div>
-                    <div className="mt-2 text-base text-white">
-                      Remote-friendly, global clients
-                    </div>
-                  </div>
-                  <div className="mt-6 flex flex-wrap gap-4">
-                    <a
-                      href="mailto:ms.mubassir@proton.me"
-                      className="mx-auto rounded-full bg-[color:var(--accent)] px-6 py-3 text-sm font-semibold text-black"
-                    >
-                      ms.mubassir@proton.me
-                    </a>
-                  </div>
-                </div>
-              </div>
+
+                <textarea
+                  name="message"
+                  rows={4}
+                  placeholder="Your message..."
+                  required
+                  className="input-field resize-none"
+                />
+
+                <button
+                  type="submit"
+                  disabled={formStatus === "sending"}
+                  className="btn-primary w-full sm:w-auto disabled:opacity-50"
+                >
+                  {formStatus === "sending" ? "Sending..." : "Send Message"}
+                </button>
+
+                {formStatus === "sent" && (
+                  <p className="text-emerald-500 text-sm">Message sent successfully!</p>
+                )}
+                {formStatus === "error" && (
+                  <p className="text-red-500 text-sm">Failed to send. Please try again.</p>
+                )}
+              </form>
             </div>
           </div>
         </section>
       </main>
 
-      {!disableScrollEnhancements && showTopButton && (
+      {/* Back to top */}
+      {showTopButton && (
         <button
-          type="button"
-          aria-label="Go to top"
-          title="Go to top"
-          onClick={scrollToTop}
-          className="fixed bottom-5 right-5 z-30 flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-black/70 text-white shadow-lg transition hover:border-white/40 hover:bg-black/90"
+          onClick={() => scrollToSection("")}
+          className="fixed bottom-6 right-6 w-12 h-12 bg-zinc-800 hover:bg-zinc-700 rounded-full flex items-center justify-center transition-colors"
+          aria-label="Back to top"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2.2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="h-5 w-5"
-          >
-            <path d="M12 19V5" />
-            <path d="m5 12 7-7 7 7" />
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
           </svg>
         </button>
       )}
 
-      <footer className="border-t border-white/5 px-4 py-8 sm:px-6">
-        <div className="mx-auto flex w-full max-w-6xl flex-col items-center justify-between gap-2 text-center text-xs uppercase tracking-[0.2em] text-white/50 md:flex-row md:gap-4 md:text-left">
-          <span>(c) 2026 Md Mubassir Ahmed Siddique</span>
+      <AIChat />
+
+      {/* Footer */}
+      <footer className="py-8 px-6 border-t border-zinc-800">
+        <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-zinc-500">
+          <span>2026 Md Mubassir Ahmed Siddique</span>
           <span>Built with TypeScript + Next.js</span>
         </div>
       </footer>
