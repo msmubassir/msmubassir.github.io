@@ -4,8 +4,6 @@ const API_KEY = "sk-79nH8aoFgSuDNdVkiT4bNlYV82Mv1ki2iuPfIfY0d5aLnlLC5EKuLLoFCQDJ
 const API_URL = "https://opencode.ai/zen/v1/chat/completions";
 const MODEL = "minimax-m2.5-free";
 
-export const dynamic = "force-dynamic";
-
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();

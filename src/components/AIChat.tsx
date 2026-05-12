@@ -55,10 +55,14 @@ export default function AIChat() {
     setIsLoading(true);
 
     try {
-      // Use server-side API route on Vercel, fallback to direct call
-      const isVercel = typeof window !== "undefined" && window.location.hostname.includes("vercel.app");
+      // Detect environment - Vercel has server-side API, others need direct call
+      const isVercel = typeof window !== "undefined" && (
+        window.location.hostname.includes("vercel.app") ||
+        window.location.hostname.includes("vercel-dev.com")
+      );
 
       let response;
+
       if (isVercel) {
         // Vercel: use local API route (server-side)
         response = await fetch("/api/chat/", {
@@ -73,9 +77,9 @@ export default function AIChat() {
           }),
         });
       } else {
-        // GitHub Pages: try direct call with additional timeout
+        // GitHub Pages or other: direct API call with CORS proxy
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 15000);
+        const timeoutId = setTimeout(() => controller.abort(), 20000);
 
         response = await fetch("https://opencode.ai/zen/v1/chat/completions", {
           method: "POST",
@@ -104,7 +108,7 @@ export default function AIChat() {
       }
 
       const data = await response.json();
-      let content = isVercel ? data.content : data.choices?.[0]?.message?.content;
+      const content = isVercel ? data.content : data.choices?.[0]?.message?.content;
 
       // Handle null content (refusal or empty response)
       if (!content) {
