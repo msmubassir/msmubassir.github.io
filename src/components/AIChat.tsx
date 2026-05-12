@@ -55,8 +55,9 @@ export default function AIChat() {
     setIsLoading(true);
 
     try {
-      // Direct API call to opencode.ai
-      const response = await fetch("https://opencode.ai/zen/v1/chat/completions", {
+      // Use CORS proxy to bypass cross-origin restrictions
+      const apiUrl = "https://opencode.ai/zen/v1/chat/completions";
+      const response = await fetch(`https://corsproxy.io/?${encodeURIComponent(apiUrl)}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
